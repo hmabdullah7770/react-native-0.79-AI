@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { verifyemailrequest, matchusenamerequest, matchotpreques, signuprequest } from '../../Redux/action/auth';
-import SocialModal from './components/SocialModal';
+import SocialModal from './SocialModal';
+import SocialBox from './SocialBox';
 
 const SocialLink = () => {
   const [selectedPlatforms, setSelectedPlatforms] = useState({
@@ -65,23 +66,14 @@ const SocialLink = () => {
       
       <View style={styles.boxesContainer}>
         {Object.keys(platformLabels).map((platform) => (
-          <TouchableOpacity
+          <SocialBox
             key={platform}
-            style={[
-              styles.box,
-              selectedPlatforms[platform] && styles.selectedBox
-            ]}
+            platform={platform}
+            label={platformLabels[platform]}
+            value={platformData[platform]}
+            isSelected={selectedPlatforms[platform]}
             onPress={() => handleBoxPress(platform)}
-          >
-            <Text style={styles.boxTitle}>{platformLabels[platform]}</Text>
-            {platformData[platform] ? (
-              <Text style={styles.boxValue} numberOfLines={1}>
-                {platformData[platform]}
-              </Text>
-            ) : (
-              <Text style={styles.boxPlaceholder}>Tap to add</Text>
-            )}
-          </TouchableOpacity>
+          />
         ))}
       </View>
       
@@ -128,38 +120,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginBottom: 20
-  },
-  box: {
-    width: '48%',
-    aspectRatio: 1.5,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 12,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    justifyContent: 'center'
-  },
-  selectedBox: {
-    borderWidth: 2,
-    borderColor: '#4CAF50',
-  },
-  boxTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8
-  },
-  boxValue: {
-    fontSize: 14,
-    color: '#333'
-  },
-  boxPlaceholder: {
-    fontSize: 14,
-    color: '#999',
-    fontStyle: 'italic'
   },
   instructionText: {
     fontSize: 14,

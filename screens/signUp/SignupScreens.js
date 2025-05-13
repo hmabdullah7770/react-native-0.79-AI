@@ -10,6 +10,8 @@ import React, { useEffect } from 'react';
 import WelcomeScreen from './WeclomeScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import EmailVerification from './EmailVerification';
+import UsernamePassword from './UsernamePassword';
+import SocialLink from './SocialLink';
 // import { connect } from 'react-redux';
 // import PropTypes from 'prop-types'
 
@@ -52,6 +54,13 @@ const SignupScreens = () => {
         />
 
 
+<Signup.Screen
+          name="UsernamePassword"
+          component={UsernamePassword}
+          options={{ headerShown: false }}  // Add this to hide the header
+          // options={{ headerShown: false }}
+        />
+
 
 <Signup.Screen
           name="EmailVerification"
@@ -59,6 +68,14 @@ const SignupScreens = () => {
           options={{ headerShown: false }}  // Add this to hide the header
           // options={{ headerShown: false }}
         />
+
+        <Signup.Screen
+          name="SocialLink"
+          component={SocialLink}
+          options={{ headerShown: false }}  // Add this to hide the header
+          // options={{ headerShown: false }}
+        />
+
 
         {/* <Auth.Screen
           name="Change"
