@@ -9,6 +9,7 @@ import React, { useEffect } from 'react';
 // import { clearerror, clearmessege } from '../Redux/action/auth';
 import WelcomeScreen from './WeclomeScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import EmailVerification from './EmailVerification';
 // import { connect } from 'react-redux';
 // import PropTypes from 'prop-types'
 
@@ -49,6 +50,16 @@ const SignupScreens = () => {
           options={{ headerShown: false }}  // Add this to hide the header
           // options={{ headerShown: false }}
         />
+
+
+
+<Signup.Screen
+          name="EmailVerification"
+          component={EmailVerification}
+          options={{ headerShown: false }}  // Add this to hide the header
+          // options={{ headerShown: false }}
+        />
+
         {/* <Auth.Screen
           name="Change"
           component={ChangePinScreen}
