@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { verifyemailrequest,matchusenamerequest,matchotpreques,signuprequest} from '../../Redux/action/auth'
-import { useDispatch } from 'react-redux'
+
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 
 import { useFormik } from 'formik';
@@ -32,6 +32,8 @@ username: yup.string().required('Name is required'),
 });
 const UsernamePassword = ({ navigation }) => {
 
+  const dispatch = useDispatch();
+
    const [showPassword, setShowPassword] = useState(true);
 
     const formik = useFormik({
@@ -40,7 +42,7 @@ const UsernamePassword = ({ navigation }) => {
        onSubmit: async (values, { setSubmitting }) => {
          const { username, password } = values;
    
-         dispatch(loginrequest(username, password));
+        dispatch(loginrequest(username, password));
    
         //  dispatch(userstaterequest(username));
         //  dispatch(locationlistrequest());

@@ -1,5 +1,5 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../Services/apiService';
+import api from '../services/apiservice';
 import { useContext } from 'react';
 // import { useAuth } from '../context/Authprovider';
 // import { useSelector } from 'react-redux';

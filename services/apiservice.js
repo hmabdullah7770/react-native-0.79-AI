@@ -1,9 +1,9 @@
 // filepath: c:\rn\ecom\services\apiservice.js
 import axios from 'axios';
-import { Baseurl, Header } from '../utils/apiConfig';
+import { Baseurl, Header } from '../utils/apiconfig';
 
 const api = axios.create({
-  baseURL: Baseurl(),
+  baseURL:  Baseurl(),
   headers: {
     'Content-Type': 'application/json',
   },

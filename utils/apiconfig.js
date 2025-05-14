@@ -1,6 +1,8 @@
 // filepath: c:\rn\ecom\utils\apiConfig.js
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+ export const Baseurl = () => BASE_URL;
 export const Header = async () => {
   try {
     const token = await AsyncStorage.getItem('userToken');

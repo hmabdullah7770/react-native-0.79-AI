@@ -3,7 +3,7 @@ import * as actions from '../action/auth';
 // import * as actions from '../action/components'
 import * as api from '../../API/auth';
 import { navigate } from '../../utils/rootNavigation';
-import EncryptedStorage from 'react-native-encrypted-storage';
+// import EncryptedStorage from 'react-native-encrypted-storage';
 
 
 function* MatchOtpSaga(payload) {

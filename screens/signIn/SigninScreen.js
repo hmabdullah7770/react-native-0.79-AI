@@ -3,7 +3,7 @@ import React from 'react'
 import { useState } from 'react';
 import Textfield from '../../components/TextField'
 import Button from '../../components/Button';
-import { loginrequest } from '../Redux/action/auth';
+// import { loginrequest } from '../Redux/action/auth';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -31,7 +31,7 @@ const SigninScreen = ({ navigation }) => {
        onSubmit: async (values, { setSubmitting }) => {
          const { username, password } = values;
    
-        await  dispatch(loginrequest(username, password));
+        // await  dispatch(loginrequest(username, password));
    
         // navigation.navigate('HomeScreen')
         //  dispatch(userstaterequest(username));
