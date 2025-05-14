@@ -1,6 +1,6 @@
 // filepath: c:\rn\ecom\utils\apiConfig.js
 // import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { BASE_URL } from '@env';
 
  export const Baseurl = () => BASE_URL;
 export const Header = async () => {
