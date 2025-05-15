@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignupScreens from '../screens/signUp/SignupScreens';
-import SigninScreens from '../screens/signIn/SigninScreen'
+import SigninScreen from '../screens/signIn/SigninScreen';
 // import { connect } from 'react-redux';
 // import PropTypes from 'prop-types'
 
@@ -47,8 +47,8 @@ const AuthScreens = () => {
 
 
 <Auth.Screen
-          name="SigninScreens"
-          component={SigninScreens}
+          name="SigninScreen"
+          component={SigninScreen}
           options={{ headerShown: false }}  // Add this to hide the header
           // options={{ headerShown: false }}
         />

@@ -11,9 +11,19 @@ import {Provider as ReduxProvider, useSelector} from 'react-redux';
 import store from './Redux/store/store';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 export const navigationRef = createNavigationContainerRef();
+
+// Define a type for your Redux state (replace with your actual RootState)
+interface RootState {
+  auth: {
+    isAuthenticated: boolean;
+    // Add other properties of your auth state here
+  };
+  // Add other slices of your state here
+}
+
 const App = () => {
 
- const {isAuthenticated} = useSelector(state => state.auth);
+ const {isAuthenticated} = useSelector((state: RootState) => state.auth);
   console.log('Is authenticated:', isAuthenticated);
 
   const [token,setToken] = useState<string | null>(null)
@@ -46,7 +56,6 @@ const Root = () => {
   );
 };
 
-// export default App;
-
+export default Root; // Export Root as default
 
 const styles = StyleSheet.create({})
