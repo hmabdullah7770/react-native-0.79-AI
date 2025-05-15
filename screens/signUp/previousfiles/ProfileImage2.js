@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import LinearGradient from 'react-native-linear-gradient';
 import { launchImageLibrary } from 'react-native-image-picker';
+import RNFS from 'react-native-fs';
 import { signuprequest } from '../../Redux/action/auth';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -37,10 +38,11 @@ const profileImageSchema = yup.object({
     )
 });
 
-const ProfileImage = () => {
+const ProfileImage2 = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const [tempFilePath, setTempFilePath] = useState(null);
   const [screenDimensions, setScreenDimensions] = useState({
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
@@ -64,8 +66,25 @@ const ProfileImage = () => {
     return () => {
       // Clean up subscription
       dimensionsSubscription.remove();
+      // Clean up temporary file when component unmounts
+      cleanupTempFile();
     };
   }, []);
+
+  // Cleanup temporary file if created
+  const cleanupTempFile = async () => {
+    if (tempFilePath && tempFilePath.startsWith('file://')) {
+      try {
+        const exists = await RNFS.exists(tempFilePath);
+        if (exists) {
+          await RNFS.unlink(tempFilePath);
+          console.log('Temporary file cleaned up');
+        }
+      } catch (error) {
+        console.error('Error cleaning up temp file:', error);
+      }
+    }
+  };
 
   // Form handling with Formik
   const formik = useFormik({
@@ -75,14 +94,14 @@ const ProfileImage = () => {
     validationSchema: profileImageSchema,
     validateOnChange: true,
     onSubmit: (values) => {
-      handleUpload(values.profileImage);
+      handleNextScreen(values.profileImage);
     }
   });
 
   // Calculate image container size based on screen dimensions
   const imageContainerSize = responsiveSize(screenDimensions.isLandscape ? 160 : 200);
   
-  // Handle image upload
+  // Handle image selection
   const handleImagePicker = async () => {
     const options = {
       mediaType: 'photo',
@@ -119,11 +138,11 @@ const ProfileImage = () => {
             }
           });
           
-          // Set the validated image
+          // Store the selected image information - just what we need for display and API
           formik.setFieldValue('profileImage', {
             uri: selectedImage.uri,
             type: selectedImage.type,
-            name: selectedImage.fileName || `image-${Date.now()}`,
+            name: selectedImage.fileName || `image-${Date.now()}.${selectedImage.type.split('/')[1]}`,
             fileSize: selectedImage.fileSize
           });
           
@@ -136,33 +155,35 @@ const ProfileImage = () => {
     }
   };
 
-  // Handle upload and navigation
-  const handleUpload = async (imageData) => {
+  // Handle navigation to next screen
+  const handleNextScreen = async (imageData) => {
     if (!imageData) return;
     
     setLoading(true);
     
     try {
-      // Create FormData for API call
-      const formData = new FormData();
-      formData.append('profileImage', {
-        uri: imageData.uri,
+      // Store image filename and data for later API calls
+      // We're only keeping what's needed for the API (not storing the file itself)
+      const imageInfo = {
+        name: imageData.name,
         type: imageData.type,
-        name: imageData.name
-      });
+        // The actual file will be sent via FormData in the API call
+      };
       
-      // You would typically dispatch your API call here
-      // Example: await dispatch(uploadProfileImage(formData));
+      // Save to Redux or AsyncStorage for later use in API
+      // This is where you would save the data for use in subsequent API calls
+      // Example using Redux:
+      // dispatch(saveProfileImageInfo(imageInfo));
       
-      // For demonstration, we'll use a timeout to simulate API call
+      // For demonstration, using setTimeout to simulate processing
       setTimeout(() => {
-        // Navigate to the next screen on successful upload
-        navigation.navigate('SocialLink');
+        // Navigate to the next screen, passing image info if needed
+        navigation.navigate('SocialLink', { imageInfo });
         setLoading(false);
-      }, 1000);
+      }, 800);
       
     } catch (error) {
-      Alert.alert('Upload Failed', 'Failed to upload profile image. Please try again.');
+      Alert.alert('Error', 'Failed to process image. Please try again.');
       setLoading(false);
     }
   };
@@ -204,13 +225,19 @@ const ProfileImage = () => {
               colors={['#0175b2', '#4b3d91']} 
               style={styles.addButtonGradient}
             >
-              <Icon name="add" size={responsiveSize(24)} color="#ffffff" />
+              <Icon name={formik.values.profileImage ? "edit" : "add"} size={responsiveSize(24)} color="#ffffff" />
             </LinearGradient>
           </TouchableOpacity>
         </View>
         
         {formik.errors.profileImage && (
           <Text style={styles.errorText}>{formik.errors.profileImage}</Text>
+        )}
+        
+        {formik.values.profileImage && (
+          <Text style={styles.fileNameText}>
+            {formik.values.profileImage.name}
+          </Text>
         )}
       </View>
       
@@ -246,7 +273,7 @@ const ProfileImage = () => {
   );
 };
 
-export default ProfileImage;
+export default ProfileImage2;
 
 const styles = StyleSheet.create({
   container: {
@@ -333,6 +360,12 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     marginTop: responsiveSize(10),
+    fontSize: responsiveSize(12),
+    textAlign: 'center',
+  },
+  fileNameText: {
+    color: '#666666',
+    marginTop: responsiveSize(8),
     fontSize: responsiveSize(12),
     textAlign: 'center',
   },
