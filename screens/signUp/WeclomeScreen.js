@@ -17,7 +17,7 @@ const WelcomeScreen = ({ navigation }) => {
         {/* Welcome Button */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => navigation.navigate('UsernamePassword')}
         >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
@@ -25,9 +25,9 @@ const WelcomeScreen = ({ navigation }) => {
         {/* Skip Button */}
         <TouchableOpacity
           style={styles.skipButton}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('SigninScreen')}
         >
-          <Text style={styles.skipButtonText}>Skip</Text>
+          <Text style={styles.skipButtonText}>back</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
