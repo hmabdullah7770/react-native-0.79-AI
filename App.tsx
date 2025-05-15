@@ -1,3 +1,6 @@
+
+
+
 import 'react-native-gesture-handler';
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
@@ -23,8 +26,8 @@ interface RootState {
 
 const App = () => {
 
- const {isAuthenticated} = useSelector((state: RootState) => state.auth);
-  console.log('Is authenticated:', isAuthenticated);
+const {isAuthenticated} = useSelector((state: RootState) => state.auth);
+  console.log('Is authenticated:',isAuthenticated)
 
   const [token,setToken] = useState<string | null>(null)
   console.log('Current token:', token); 

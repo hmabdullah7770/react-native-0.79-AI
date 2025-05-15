@@ -3,7 +3,7 @@ import auth from './Auth';
 import states from './states'
 
 const rootReducer = combineReducers({
-  Auth: auth,
+  auth: auth,
   States: states
 });
 
