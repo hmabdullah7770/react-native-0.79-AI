@@ -61,10 +61,10 @@ const Textfield = ({
     setIsFocused(true);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (event) => {
     setIsFocused(false);
     if (onBlur) {
-      onBlur();
+      onBlur(event);
     }
   };
 

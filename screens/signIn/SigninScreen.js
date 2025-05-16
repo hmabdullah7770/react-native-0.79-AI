@@ -3,7 +3,8 @@ import React from 'react'
 import { useState } from 'react';
 import Textfield from '../../components/TextField'
 import Button from '../../components/Button';
-// import { loginrequest } from '../Redux/action/auth';
+import { loginrequest } from '../../Redux/action/auth';
+import { useDispatch } from 'react-redux';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -22,7 +23,7 @@ const schema = yup.object().shape({
   //   ),
 });
 const SigninScreen = ({ navigation }) => {
-
+  const dispatch = useDispatch();
    const [showPassword, setShowPassword] = useState(true);
 
     const formik = useFormik({
@@ -31,7 +32,7 @@ const SigninScreen = ({ navigation }) => {
        onSubmit: async (values, { setSubmitting }) => {
          const { username, password } = values;
    
-        // await  dispatch(loginrequest(username, password));
+        await  dispatch(loginrequest(username, password));
    
         // navigation.navigate('HomeScreen')
         //  dispatch(userstaterequest(username));
@@ -52,7 +53,9 @@ const SigninScreen = ({ navigation }) => {
           onBlur={formik.handleBlur('username')}
           value={formik.values.name}
     />
-
+ {formik.errors.username && formik.touched.username && (
+          <Text style={styles.errorText}>{formik.errors.username}</Text>
+        )}
 
   <Textfield
         placeholder={'Enter your password'}
@@ -64,6 +67,10 @@ const SigninScreen = ({ navigation }) => {
         secureTextEntry={showPassword}
         onEyePress={() => setShowPassword(!showPassword)}
     />
+
+{formik.errors.name && formik.touched.name && (
+          <Text style={styles.errorText}>{formik.errors.password}</Text>
+        )}
 
     <Button
           onPress={formik.handleSubmit}
@@ -84,6 +91,15 @@ const SigninScreen = ({ navigation }) => {
 export default SigninScreen
 
 const styles = StyleSheet.create({
+  errorText: {
+    color: 'red',
+    textAlign: 'left',
+    marginTop: -8,
+    marginBottom: 8,
+    marginLeft: '5%',
+  },
+
+  
   container: {
     flex: 1,
     justifyContent: 'center',
