@@ -10,6 +10,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input'
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import NextButton from './components/NextButton';
 
 
 
@@ -60,8 +61,12 @@ const UsernamePassword = ({ navigation }) => {
           iconName={'person'}
           onChangeText={formik.handleChange('email')}
           onBlur={formik.handleBlur('email')}
-          value={formik.values.name}
+          value={formik.values.email}
     />
+
+{formik.errors.email && formik.touched.email && (
+          <Text style={styles.errorText}>{formik.errors.email}</Text>
+        )}
 
 
     <Textfield
@@ -69,9 +74,12 @@ const UsernamePassword = ({ navigation }) => {
           iconName={'person'}
           onChangeText={formik.handleChange('username')}
           onBlur={formik.handleBlur('username')}
-          value={formik.values.name}
+          value={formik.values.username}
     />
 
+{formik.errors.username && formik.touched.username && (
+          <Text style={styles.errorText}>{formik.errors.username}</Text>
+        )}
   <Textfield
         placeholder={'Enter your password'}
         iconName={'lock'}
@@ -83,18 +91,21 @@ const UsernamePassword = ({ navigation }) => {
         onEyePress={() => setShowPassword(!showPassword)}
     />
 
-    <Button
+{formik.errors.password && formik.touched.password && (
+          <Text style={styles.errorText}>{formik.errors.password}</Text>
+        )}
+    {/* <Button
           onPress={formik.handleSubmit}
           isSubmitting={formik.isSubmitting}
           iconName="sign-in-alt"
           value="Login"
-        />
+        /> */}
 
-      <TouchableOpacity
-          onPress={() => navigation.navigate('SignupScreens')}
-          style={styles.button}>
-          <Text style={styles.buttonText}>Go to Sign up</Text>
-      </TouchableOpacity>
+
+<NextButton
+onPress={() => navigation.navigate('SignupScreens',{screen:'EmailVerification'})}
+/>
+ 
     </View>
   )
 }
@@ -106,19 +117,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    position: 'relative',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20
   },
+ 
   button: {
-    backgroundColor: '#007AFF', // iOS blue color
-    padding: 15,
+    backgroundColor: '#007AFF',
+    padding: 10,
     borderRadius: 10,
-    width: '80%',
-    alignItems: 'center'
+    width: 90,
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
@@ -134,5 +147,12 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
 
+  errorText: {
+    color: 'red',
+    textAlign: 'left',
+    marginTop: -8,
+    marginBottom: 8,
+    marginLeft: '5%',
+  },
 
 })

@@ -6,7 +6,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 import * as Yup from 'yup';
 import LinearGradient from 'react-native-linear-gradient';
 import { matchotprequest, signuprequest } from '../../Redux/action/auth';
-
+import NextButton from './components/NextButton';
 // Get screen dimensions for responsive design
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -19,7 +19,7 @@ const otpSchema = Yup.string()
   .required('OTP is required')
   .matches(/^[0-9]{6}$/, 'OTP must be exactly 6 digits');
 
-const EmailVerification = ({ route }) => {
+const EmailVerification = ({navigation}) => {
   const [otp, setOtp] = useState('');
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -31,10 +31,10 @@ const EmailVerification = ({ route }) => {
   });
   
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   
-  // Extract email from route params if available
-  const { email } = route?.params || { email: '' };
+  // // Extract email from route params if available
+  // const { email } = route?.params || { email: '' };
 
   // Handle screen rotation and dimension changes
   useEffect(() => {
@@ -57,48 +57,50 @@ const EmailVerification = ({ route }) => {
   }, []);
 
   // Validate OTP whenever it changes
-  useEffect(() => {
-    validateOtp(otp);
-  }, [otp]);
+  // useEffect(() => {
+  //   validateOtp(otp);
+  // }, [otp]);
 
   // Function to validate OTP using Yup schema
-  const validateOtp = async (code) => {
-    try {
-      await otpSchema.validate(code);
-      setIsValid(true);
-      setError('');
-    } catch (err) {
-      setIsValid(false);
-      setError(err.message);
-    }
-  };
+  // const validateOtp = async (code) => {
+  //   try {
+  //     await otpSchema.validate(code);
+  //     setIsValid(true);
+  //     setError('');
+  //   } catch (err) {
+  //     setIsValid(false);
+  //     setError(err.message);
+  //   }
+  // };
 
   // Handle OTP verification and navigation
   const handleVerify = async () => {
-    if (!isValid) return;
+   
+   navigation.navigate('SignupScreens',{screen:'ProfileImage2'});
+    // if (!isValid) return;
     
-    setLoading(true);
+    // setLoading(true);
     
-    try {
-      // Replace this with your actual API verification logic
-      const response = await dispatch(matchotprequest({ 
-        email: email, 
-        otp: otp 
-      }));
+    // try {
+    //   // Replace this with your actual API verification logic
+    //   // const response = await dispatch(matchotprequest({ 
+    //   //   email: email, 
+    //   //   otp: otp 
+    //   // }));
       
-      // Check if verification was successful
-      if (response && response.success) {
-        navigation.navigate('ProfileImage'); // Navigate to profile image screen
-      } else {
-        // Handle verification failure
-        setError('Invalid OTP. Please try again.');
-      }
-    } catch (err) {
-      setError('Verification failed. Please try again.');
-      Alert.alert('Verification Failed', 'Please check your OTP and try again.');
-    } finally {
-      setLoading(false);
-    }
+    //   // Check if verification was successful
+    //   if (response && response.success) {
+    //     navigation.navigate('ProfileImage'); // Navigate to profile image screen
+    //   } else {
+    //     // Handle verification failure
+    //     setError('Invalid OTP. Please try again.');
+    //   }
+    // } catch (err) {
+    //   setError('Verification failed. Please try again.');
+    //   Alert.alert('Verification Failed', 'Please check your OTP and try again.');
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   // Calculate dynamic styles based on screen orientation
@@ -120,9 +122,9 @@ const EmailVerification = ({ route }) => {
     <View style={[styles.container, dynamicStyles.container]}>
       <Text style={styles.title}>Email Verification</Text>
       
-      <Text style={styles.subtitle}>
+      {/* <Text style={styles.subtitle}>
         Enter the 6-digit code sent to {email || 'your email'}
-      </Text>
+      </Text> */}
 
       <OTPInputView
         style={[styles.otpInput, dynamicStyles.otpInput]}
@@ -135,16 +137,16 @@ const EmailVerification = ({ route }) => {
           validateOtp(code);
           
           // Auto-navigate on valid input if needed
-          if (code.length === 6 && !error) {
-            handleVerify();
-          }
+          // if (code.length === 6 && !error) {
+          //   handleVerify();
+          // }
         }}
         onCodeChanged={(code) => {
           setOtp(code);
         }}
       />
       
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {/* {error ? <Text style={styles.errorText}>{error}</Text> : null} */}
 
       <View style={[styles.buttonContainer, dynamicStyles.buttonContainer]}>
         <TouchableOpacity 
@@ -168,10 +170,13 @@ const EmailVerification = ({ route }) => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.resendContainer}>
+      <View style={styles.resendContainer}>
         <Text style={styles.resendText}>Didn't receive code? </Text>
-        <Text style={styles.resendLink}>Resend</Text>
-      </TouchableOpacity>
+        <TouchableOpacity><Text  style={styles.resendLink}>Resend</Text></TouchableOpacity>
+      </View>
+       {/* <NextButton
+       onPress={() => navigation.navigate('ProfileImage2')}
+      />   */}
     </View>
   );
 };

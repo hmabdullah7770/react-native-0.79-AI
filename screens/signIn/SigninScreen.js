@@ -12,7 +12,7 @@ import * as yup from 'yup';
 
 
 const schema = yup.object().shape({
-  name: yup.string().required('Name is required'),
+  username: yup.string().required('Name is required'),
   password: yup
     .string()
     .required('Password is required')
@@ -51,7 +51,7 @@ const SigninScreen = ({ navigation }) => {
           iconName={'person'}
           onChangeText={formik.handleChange('username')}
           onBlur={formik.handleBlur('username')}
-          value={formik.values.name}
+          value={formik.values.username}
     />
  {formik.errors.username && formik.touched.username && (
           <Text style={styles.errorText}>{formik.errors.username}</Text>
@@ -68,7 +68,7 @@ const SigninScreen = ({ navigation }) => {
         onEyePress={() => setShowPassword(!showPassword)}
     />
 
-{formik.errors.name && formik.touched.name && (
+{formik.errors.password && formik.touched.password && (
           <Text style={styles.errorText}>{formik.errors.password}</Text>
         )}
 
@@ -80,7 +80,7 @@ const SigninScreen = ({ navigation }) => {
         />
 
       <TouchableOpacity
-          onPress={() => navigation.navigate('SignupScreens')}
+          onPress={() => navigation.navigate('SignupScreens',{screen:'UsernamePassword'})}
           style={styles.button}>
           <Text style={styles.buttonText}>Go to Sign up</Text>
       </TouchableOpacity>
