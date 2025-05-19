@@ -447,6 +447,21 @@ function* LogoutSaga() {
         ]),
       );
     } 
+    else if(response.status === 401  &&  response.error ==="invalid token"){
+      
+      console.log('invalid token', response);
+      yield put(
+        actions.loginfail({
+        error: "invalid token", 
+              }),
+
+   
+            );
+   
+    }
+
+
+
     else if(response.status === 401  &&  response.error ==="jwt expired"){
       
       console.log('jwt expired', response);
