@@ -1,4 +1,12 @@
+//token check action
+export const tokencheck = () => ({
+  type: 'TOKEN_CHECK',
+ });
+
+
+
 //verifyemail
+
 export const verifyemailrequest = (email) => ({
   type: 'VERIFY_EMAIL_REQUEST',
   email,

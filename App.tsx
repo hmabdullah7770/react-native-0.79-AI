@@ -15,6 +15,10 @@ import store from './Redux/store/store';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 export const navigationRef = createNavigationContainerRef();
 import * as Keychain from 'react-native-keychain';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { get } from 'http';
+import { tokencheck } from './Redux/action/auth';
 
 // Define a type for your Redux state (replace with your actual RootState)
 interface RootState {
@@ -28,18 +32,38 @@ interface RootState {
 
 const App = () => {
 
+  const dispatch = useDispatch();
+
+  const getToken = async () => {
+   
+    const accessToken = await Keychain.getGenericPassword('accessToken');
+    console.log('Access Token:', accessToken);
+    return accessToken
+    // const  refreshToken = await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
+ };
+
+if(getToken!== null){
+ useEffect(()=>{
+ dispatch(
+tokencheck());
+},[])
+
+}
+
+
+
 const {isAuthenticated,user} = useSelector((state: RootState) => state.auth);
-  console.log('Is authenticated:',isAuthenticated)
+console.log('Is authenticated:',isAuthenticated)
 
 
 console.log('User in App.tsx :', user)
 
 
-const getToken = async () => {
+// const getToken = async () => {
 
-  const accessToken = await Keychain.setGenericPassword('accessToken', user.data.accessToken);
-  const  refreshToken = await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
-};
+//   const accessToken = await Keychain.setGenericPassword('accessToken', user.data.accessToken);
+//   const  refreshToken = await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
+// };
 
   const [token,setToken] = useState<string | null>(null)
   console.log('Current token:', token); 

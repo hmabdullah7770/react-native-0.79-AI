@@ -1,3 +1,5 @@
+import * as Keychain from 'react-native-keychain'
+
 const initialState = {
    
 
@@ -14,9 +16,34 @@ const initialState = {
     // setuserstate: null,
     cleanUsername: null,
   };
+
+
+  const accessToken = await Keychain.getGenericPassword('accessToken', user.data.accessToken);
   
   const auth = (state = initialState, action) => {
+    
+    // if (accessToken!== null){
+
+    //   console.log('accessToken: ', accessToken);
+    //   return {
+    //     ...state,
+        
+    //     isAuthenticated: true,
+        
+    //   };
+
+    // }
+    
+    
     switch (action.type) {
+
+
+    case 'TOKEN_CHECK':
+      
+    return{
+     ...state,
+      isAuthenticated:true,
+      }
 
 
       case 'MATCH_OTP_SUCCESSFUL':
