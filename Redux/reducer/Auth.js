@@ -115,7 +115,7 @@ case 'MATCH_USERNAME_SUCCESSFUL':
       
       
       case 'LOGIN_SUCCESSFUL':
-        console.log('LOGIN_SUCCESSFUL : ', action.payload);
+        console.log('LOGIN_SUCCESSFUL : ', action.payload.data);
         return {
           ...state,
           // screen: action.payload.data.buttons,
@@ -123,7 +123,7 @@ case 'MATCH_USERNAME_SUCCESSFUL':
           isAuthenticated: true,
           error: null,
   
-          messege: action.payload.messege,
+          messege: action.payload.data,
         };
   
       case 'LOGIN_FAIL':

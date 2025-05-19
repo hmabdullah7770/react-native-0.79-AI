@@ -15,6 +15,8 @@ import TestingScreen from '../screens/TestingScreen';
 // import Hoc from '../hoc/Hoc';
 // import CustomHeader from '../components/CustomHeader';
 import { createStackNavigator } from '@react-navigation/stack';
+import Loader from '../components/Loader';
+import { useSelector } from 'react-redux';
 // import PropTypes from 'prop-types'
 // import { connect } from 'react-redux';
 
@@ -29,7 +31,7 @@ const AppScreens = () => {
 
   // const { handleSnackbar } = useContext(SnackbarContext);
 
-  // const { error, messege, loading } = useSelector(state => state.Auth);
+   const  {loading}  = useSelector(state => state.auth);
 
   // const dispatch = useDispatch();
 
@@ -71,6 +73,7 @@ const AppScreens = () => {
 
   return (
     <>
+    {loading && <Loader />}
       {/* {loading && <Loader />} */}
       <App.Navigator
         // screenOptions={{

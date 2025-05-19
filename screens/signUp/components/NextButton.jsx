@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#f9213f',
     padding: 10,
     borderRadius: 10,
     width: 90,

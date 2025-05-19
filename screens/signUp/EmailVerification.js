@@ -132,18 +132,18 @@ const EmailVerification = ({navigation}) => {
         autoFocusOnLoad
         codeInputFieldStyle={styles.codeInputField}
         codeInputHighlightStyle={styles.codeInputHighlight}
-        onCodeFilled={(code) => {
-          setOtp(code);
-          validateOtp(code);
+        // onCodeFilled={(code) => {
+        //   setOtp(code);
+        //   validateOtp(code);
           
-          // Auto-navigate on valid input if needed
-          // if (code.length === 6 && !error) {
-          //   handleVerify();
-          // }
-        }}
-        onCodeChanged={(code) => {
-          setOtp(code);
-        }}
+        //   // Auto-navigate on valid input if needed
+        //   // if (code.length === 6 && !error) {
+        //   //   handleVerify();
+        //   // }
+        // }}
+        // onCodeChanged={(code) => {
+        //   setOtp(code);
+        // }}
       />
       
       {/* {error ? <Text style={styles.errorText}>{error}</Text> : null} */}
@@ -158,11 +158,11 @@ const EmailVerification = ({navigation}) => {
           ]}
         >
           <LinearGradient 
-            colors={!isValid || loading ? ['#cccccc', '#999999'] : ['#0175b2', '#4b3d91']} 
+            colors={!isValid || loading ? ['#cccccc', '#999999'] : ['#ff0206', '#ff0206']} 
             style={styles.button}
           >
             {loading ? (
-              <ActivityIndicator color="#ffffff" size="small" />
+              <ActivityIndicator color="#ff0206" size="small" />
             ) : (
               <Text style={styles.buttonText}>Verify & Continue</Text>
             )}
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: responsiveSize(24),
     fontWeight: 'bold',
-    marginBottom: responsiveSize(10),
+    marginBottom: responsiveSize(50),
     color: '#333333',
     textAlign: 'center',
   },
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
     fontSize: responsiveSize(20),
   },
   codeInputHighlight: {
-    borderColor: '#0175b2',
+    borderColor: '#ff0206',
     borderWidth: 2,
   },
   errorText: {
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     fontSize: responsiveSize(14),
   },
   resendLink: {
-    color: '#0175b2',
+    color: '#ff0206',
     fontSize: responsiveSize(14),
     fontWeight: '600',
   }

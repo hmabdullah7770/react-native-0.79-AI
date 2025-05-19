@@ -1,17 +1,22 @@
 // filepath: c:\rn\ecom\utils\apiConfig.js
 // import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_URL } from '@env';
+import { BASE_URL, PRODUCTION_URL} from '@env';
+import * as Keychain from 'react-native-keychain';
 
- export const Baseurl = () => BASE_URL;
+export const Producturl = () => PRODUCTION_URL;
+  // export const Baseurl = () => BASE_URL;
 export const Header = async () => {
   try {
-    const token = await AsyncStorage.getItem('userToken');
+
+    await Keychain.setGenericPassword('authToken', token);
+    console.log('Token stored successfully')
+    // const token = await AsyncStorage.getItem('userToken');
     if (token) {
       return { Authorization: `Bearer ${token}` };
     }
     return {}; // Return empty object if no token
   } catch (error) {
-    console.error('Error getting token:', error);
+    console.log('Error getting token:', error);
     return {}; // Return empty object on error
   }
 };

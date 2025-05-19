@@ -103,11 +103,21 @@ export const signupfail = error => ({
 
 
 //LOGIN
-export const loginrequest = (username, password) => ({
-  type: 'LOGIN_REQUEST',
-  username,
-  password,
-});
+// export const loginrequest = (username, password) => ({
+  
+//   type: 'LOGIN_REQUEST',
+//   username,
+//   password,
+// });
+
+export const loginrequest = (username, password) => {
+  console.log("username is", username, "password is :", password);
+  return {
+    type: 'LOGIN_REQUEST',
+    username,
+    password,
+  };
+};
 
 export const loginsuccessful = (data, messege) => ({
   type: 'LOGIN_SUCCESSFUL',

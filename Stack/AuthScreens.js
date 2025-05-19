@@ -11,6 +11,8 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignupScreens from '../screens/signUp/SignupScreens';
 import SigninScreen from '../screens/signIn/SigninScreen';
+import Loader from '../components/Loader';
+import { useSelector } from 'react-redux';
 // import { connect } from 'react-redux';
 // import PropTypes from 'prop-types'
 
@@ -19,7 +21,7 @@ const AuthScreens = () => {
 
   // const { handleSnackbar } = useContext(SnackbarContext);
 
-  // // const { error, messege, loading } = useSelector(state => state.Auth);
+  const  {loading}  = useSelector(state => state.auth);
 
   // // const dispatch = useDispatch();
 
@@ -35,7 +37,7 @@ const AuthScreens = () => {
 
   return (
     <>
-      {/* {loading && <Loader />} */}
+       {loading && <Loader />} 
 
       <Auth.Navigator>
 

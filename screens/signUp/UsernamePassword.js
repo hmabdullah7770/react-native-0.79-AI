@@ -104,6 +104,7 @@ const UsernamePassword = ({ navigation }) => {
 
 <NextButton
 onPress={() => navigation.navigate('SignupScreens',{screen:'EmailVerification'})}
+
 />
  
     </View>

@@ -71,17 +71,17 @@ const Textfield = ({
   // Calculate dynamic styles based on screen orientation
   const dynamicStyles = {
     inputContainer: {
-      height: screenDimensions.isLandscape ? responsiveSize(36) : responsiveSize(38),
-      width: screenDimensions.isLandscape ? '85%' : '90%',
-      borderRadius: responsiveSize(24),
+      height: screenDimensions.isLandscape ? responsiveSize(46) : responsiveSize(48),
+      width: screenDimensions.isLandscape ? '75%' : '85%',
+      borderRadius: responsiveSize(11),
     },
     inputIcon: {
       height: screenDimensions.isLandscape ? responsiveSize(30) : responsiveSize(33),
       width: screenDimensions.isLandscape ? responsiveSize(30) : responsiveSize(33),
-      borderRadius: responsiveSize(20),
-      marginLeft: responsiveSize(4),
+      borderRadius: responsiveSize(10),
+      marginLeft: responsiveSize(10),
     },
-    iconSize: screenDimensions.isLandscape ? responsiveSize(18) : responsiveSize(20),
+    iconSize: screenDimensions.isLandscape ? responsiveSize(28) : responsiveSize(30),
     eyeIconSize: screenDimensions.isLandscape ? responsiveSize(20) : responsiveSize(23),
     padding: screenDimensions.isLandscape ? responsiveSize(8) : responsiveSize(10),
   };
@@ -96,9 +96,9 @@ const Textfield = ({
         containerStyle
       ]}
     >
-      <LinearGradient colors={['#0175b2', '#4b3d91']} style={[styles.inputIcon, dynamicStyles.inputIcon]}>
-        <Icon name={iconName} size={dynamicStyles.iconSize} color="#fff" />
-      </LinearGradient>
+      <View style={[styles.inputIcon, dynamicStyles.inputIcon]}>
+        <Icon name={iconName} size={dynamicStyles.iconSize} color="#666666" />
+     </View>
       <TextInput
         placeholder={placeholder}
         style={[styles.input, { marginLeft: dynamicStyles.padding }]}
@@ -125,9 +125,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: responsiveSize(23),
-    backgroundColor: '#f0f0f0',
-    borderWidth: 0, // Default no border
+    marginBottom: responsiveSize(17),
+    backgroundColor: '#e7e7e7',
+    // #f5e8e0
+    border: '1px solidrgb(67, 64, 64)',
+    borderWidth: 1, // Default no border
     alignSelf: 'center',
   },
   inputIcon: {
@@ -144,13 +146,13 @@ const styles = StyleSheet.create({
   },
   eyeIcon: {
     position: 'absolute',
-    right: responsiveSize(10),
+    right: responsiveSize(7),
     height: '100%',
     justifyContent: 'center',
   },
   input: {
     flex: 1,
-    paddingRight: responsiveSize(40), // Make space for eye icon
+    paddingRight: responsiveSize(37), // Make space for eye icon
   }
 });
 

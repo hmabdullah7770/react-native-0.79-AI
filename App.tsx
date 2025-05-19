@@ -14,11 +14,13 @@ import {Provider as ReduxProvider, useSelector} from 'react-redux';
 import store from './Redux/store/store';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 export const navigationRef = createNavigationContainerRef();
+import * as Keychain from 'react-native-keychain';
 
 // Define a type for your Redux state (replace with your actual RootState)
 interface RootState {
   auth: {
     isAuthenticated: boolean;
+    user:Object | null; // Replace with your actual user type
     // Add other properties of your auth state here
   };
   // Add other slices of your state here
@@ -26,8 +28,18 @@ interface RootState {
 
 const App = () => {
 
-const {isAuthenticated} = useSelector((state: RootState) => state.auth);
+const {isAuthenticated,user} = useSelector((state: RootState) => state.auth);
   console.log('Is authenticated:',isAuthenticated)
+
+
+console.log('User in App.tsx :', user)
+
+
+const getToken = async () => {
+
+  const accessToken = await Keychain.setGenericPassword('accessToken', user.data.accessToken);
+  const  refreshToken = await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
+};
 
   const [token,setToken] = useState<string | null>(null)
   console.log('Current token:', token); 

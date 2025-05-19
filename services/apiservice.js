@@ -1,13 +1,21 @@
 // filepath: c:\rn\ecom\services\apiservice.js
 import axios from 'axios';
-import { Baseurl, Header } from '../utils/apiconfig';
+import { Baseurl, Header,Producturl } from '../utils/apiconfig';
 
+
+// console.log("base url is", Baseurl())
+console.log("base url is", Producturl())
 const api = axios.create({
-  baseURL:  Baseurl(),
+  
+  //  baseURL:  Baseurl(),
+  baseURL:Producturl(),
   headers: {
-    'Content-Type': 'application/json',
+     'Content-Type': 'application/json',
   },
 });
+
+
+
 
 api.interceptors.request.use(
   async (config) => {
@@ -16,21 +24,24 @@ api.interceptors.request.use(
       ...config.headers,
       ...header,
     };
+    console.log("config is", config)
     return config;
   },
   (error) => {
+    console.error('API Request Error:', error);
     return Promise.reject(error);
   }
 );
 
-api.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    return Promise.reject(error);
-  }
-);
+// api.interceptors.response.use(
+//   function (response) {
+//     return response;
+//   },
+//   function (error) {
+//     console.error('API Request Error:', error);
+//     return Promise.reject(error);
+//   }
+// );
 
 export default api;
 

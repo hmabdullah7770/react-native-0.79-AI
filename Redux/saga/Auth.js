@@ -310,10 +310,13 @@ function* AzureLoginSaga(payload) {
 
 function* LoginSaga(payload) {
   try {
+    console.log('LoginSaga started with payload:', payload);
     yield put(actions.setloading(true));
-    const response = yield call(api.login, payload.email, payload.password); //,payload.username
+    const response = yield call(api.login, payload.username, payload.password); //,payload.username
 
+    console.log('Making API call with credentials...');
     if (response.status === 200) {
+      console.log('Invalid response data format:', response.data);
       if (!response.data || typeof response.data !== 'object') {
         yield put(
           actions.loginfail({
@@ -323,12 +326,13 @@ function* LoginSaga(payload) {
             ],
           }),
         );
-      } else if (response.data.result.errorText) {
+      } else if (response.data.message) {
+        console.log('Login failed with message:', response.data.message);
         yield put(
           actions.loginfail({
             error: [
-              response.data.result.errorText,
-              response.data.result.errorDetail,
+              response.data.result.message,
+              // response.data.result.errorDetail,
               // response.data.result.errorText.includes('Reset PIN')
               //   ? navigate('Change')
               //   : null,
@@ -336,6 +340,7 @@ function* LoginSaga(payload) {
           }),
         );
       } else {
+        console.log('Login successful, data:', response.data);
         yield put(
           actions.loginsuccessful(response.data, [
             'Login Successful',
@@ -344,6 +349,7 @@ function* LoginSaga(payload) {
         );
       }
     } else {
+      console.log('Unexpected status code:', response.status);
       yield put(
         actions.loginfail({
           error: [
@@ -355,6 +361,7 @@ function* LoginSaga(payload) {
     }
     yield put(actions.setloading(false));
   } catch (error) {
+    console.log('LoginSaga error:', error);
     yield put(actions.setloading(false));
 
     yield put(

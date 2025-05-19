@@ -30,15 +30,18 @@ const SigninScreen = ({ navigation }) => {
        initialValues: { username: '', password: '' },
        validationSchema: schema,
        onSubmit: async (values, { setSubmitting }) => {
-         const { username, password } = values;
+        
    
-        await  dispatch(loginrequest(username, password));
-   
-        // navigation.navigate('HomeScreen')
-        //  dispatch(userstaterequest(username));
-        //  dispatch(locationlistrequest());
-        //  dispatch(partnerlistrequest());
-         setSubmitting(false);
+         try {
+          const { username, password } = values;
+          console.log("Submitting form with:", { username, password });
+          await dispatch(loginrequest(username, password));
+        } catch (error) {
+          console.error("Form submission error:", error);
+        } finally {
+          setSubmitting(false);
+        }
+    
        },
      }); 
 
@@ -50,7 +53,7 @@ const SigninScreen = ({ navigation }) => {
        placeholder={'Enter username or email'}
           iconName={'person'}
           onChangeText={formik.handleChange('username')}
-          onBlur={formik.handleBlur('username')}
+          // onBlur={formik.handleBlur('username')}
           value={formik.values.username}
     />
  {formik.errors.username && formik.touched.username && (
@@ -61,7 +64,7 @@ const SigninScreen = ({ navigation }) => {
         placeholder={'Enter your password'}
         iconName={'lock'}
         onChangeText={formik.handleChange('password')}
-        onBlur={formik.handleBlur('password')}
+        // onBlur={formik.handleBlur('password')}
         value={formik.values.password}
         isPassword={true}
         secureTextEntry={showPassword}
@@ -72,18 +75,32 @@ const SigninScreen = ({ navigation }) => {
           <Text style={styles.errorText}>{formik.errors.password}</Text>
         )}
 
-    <Button
+
+<View style={styles.loginView}>
+ <TouchableOpacity
           onPress={formik.handleSubmit}
+          isSubmitting={formik.isSubmitting}
+          style={styles.button}>
+          <Text style={styles.loginButton}>Login</Text>
+      </TouchableOpacity>
+      </View>
+    {/* <Button
+          onPress={}
           isSubmitting={formik.isSubmitting}
           iconName="sign-in-alt"
           value="Login"
-        />
+        /> */}
+<View
+style={styles.signupView}
+>
+
+  <Text>don't have the account then? </Text>
 
       <TouchableOpacity
           onPress={() => navigation.navigate('SignupScreens',{screen:'UsernamePassword'})}
-          style={styles.button}>
-          <Text style={styles.buttonText}>Go to Sign up</Text>
+          ><Text style={styles.buttonText}>Sign Up Now</Text>
       </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -91,6 +108,33 @@ const SigninScreen = ({ navigation }) => {
 export default SigninScreen
 
 const styles = StyleSheet.create({
+  
+  signupView:{
+    display:'flex',
+    flexDirection:'row',
+    textDecorationLine: 'underline',
+  },
+
+  loginView:{
+   display:'flex',
+   marginTop:10,
+   alignItems:'center',
+   justifyContent:'center',
+   alignContent:'center',
+   width:'100%',
+   marginBottom: '20',
+  },
+
+  loginButton: {
+    fontSize: 17,
+    fontFamily: 'Poppins-Regular',
+    fontWeight: 'bold',
+    color: '#fff',
+    fontSize: 16,
+    // fontWeight: '600'
+    // backgroundColor: 
+  },
+  
   errorText: {
     color: 'red',
     textAlign: 'left',
@@ -104,26 +148,29 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: 'transparent'
+
+    // #fff4ec
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20
+    marginBottom: 90,
   },
   button: {
-    backgroundColor: '#007AFF', // iOS blue color
-    padding: 15,
+    backgroundColor: '#f9213f', // iOS blue color
+    padding: 11,
     borderRadius: 10,
     width: '80%',
     alignItems: 'center'
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600'
+    color: '#e51a68',
+   textDecorationLine: 'underline',
+   textDecorationStyle: 'solid',
+ // matches your button color
+   letterSpacing: 0.5
   },
-
   eye: {
     position: 'absolute',
     right: 10,
