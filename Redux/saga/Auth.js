@@ -433,20 +433,35 @@ function* ChangepinSaga(payload) {
   }
 }
 
-function* LogoutSaga(payload) {
+function* LogoutSaga() {
   yield put(actions.setloading(true));
   try {
-    const response = yield call(api.logout, payload.username);
+    const response = yield call(api.logout);
 
     if (response.status === 200) {
       yield put(
         actions.logoutsuccessful([
           'logged out Successful',
           'You are logged out',
-          EncryptedStorage.clear('azure_token')
+          // EncryptedStorage.clear('azure_token')
         ]),
       );
-    } else {
+    } 
+    else if(response.status === 401  &&  response.error ==="jwt expired"){
+      
+      console.log('jwt expired', response);
+      yield put(
+        actions.loginfail({
+        error: "jwt expired", 
+              }),
+
+   //refreshtoken 
+            );
+   
+    }
+    
+
+    else {
       yield put(
         actions.logoutfails({
           error: `Unexpected response status: ${response.status}`,

@@ -2,7 +2,7 @@ import * as Keychain from 'react-native-keychain'
 
 const initialState = {
    
-
+  //  accessToken: null,
    user: null,
     error: null,
     screen: null,
@@ -18,7 +18,7 @@ const initialState = {
   };
 
 
-  const accessToken = await Keychain.getGenericPassword('accessToken', user.data.accessToken);
+  // const accessToken = await Keychain.getGenericPassword('accessToken', user.data.accessToken);
   
   const auth = (state = initialState, action) => {
     
@@ -45,6 +45,8 @@ const initialState = {
       isAuthenticated:true,
       }
 
+
+      
 
       case 'MATCH_OTP_SUCCESSFUL':
         console.log('MATCH_OTP_SUCCESSFUL : ', action.payload);
@@ -212,7 +214,7 @@ case 'MATCH_USERNAME_SUCCESSFUL':
         };
   
       case 'LOG_OUT_FAILS': {
-        console.log('Logout Successful ', action.payload.error);
+        console.log('Logout Successful ', action.payload);
   
         return { ...state, error: action.payload.error };
       }

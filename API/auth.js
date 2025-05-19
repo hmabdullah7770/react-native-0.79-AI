@@ -1,6 +1,11 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/apiservice';
 import { useContext } from 'react';
+import * as Keychain from 'react-native-keychain';
+
+import { useSelector } from 'react-redux';
+
+
 // import { useAuth } from '../context/Authprovider';
 // import { useSelector } from 'react-redux';
 // import store from '../Redux/store/store';
@@ -26,6 +31,9 @@ import { useContext } from 'react';
 //   });
 // };
 
+
+const accessToken = useSelector((state) => state.auth.user.data.accessToken);
+const refreshToken = useSelector((state) => state.auth.user.data.refreshToken);
 
 export const verifyemail = (email) =>
   api.post('/users/verify-email', {
@@ -90,11 +98,21 @@ export const changepin = (username, pin, newpin) =>
     azureUserName: 'ayesha.zahid',
   });
 
-export const logout = username =>
-  api.post('mobile/Logout', {
-    username,
-    azureUserName: 'ayesha.zahid',
-  });
+export const logout = accessToken =>
+  api.post('/users/logout', 
+  
+  {
+    headers: {
+
+      Authorization: `Bearer ${accessToken}`,
+      
+
+    },}
+  
+  );
+
+
+
 
 export const userstate = username =>
   api.get('mobile/GetUserState', {

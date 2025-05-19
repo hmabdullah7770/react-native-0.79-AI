@@ -10,9 +10,11 @@ const api = axios.create({
   //  baseURL:  Baseurl(),
   baseURL:Producturl(),
   headers: {
+     Authorization: Header(),
      'Content-Type': 'application/json',
   },
 });
+
 
 
 

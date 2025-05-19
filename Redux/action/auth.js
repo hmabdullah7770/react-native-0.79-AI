@@ -137,6 +137,47 @@ export const loginfail = error => ({
   payload: error,
 });
 
+
+
+//LOGOUT
+
+
+export const logoutrequest = ()=> {
+  
+   console.log("Inside logout request")
+  return{
+  type: 'LOG_OUT_REQUEST',
+  
+}
+
+}
+
+
+export const logoutsuccessful = messege => {
+  
+  console.log(payload.messege)
+  return{
+
+  type: 'LOG_OUT_SUCCESSFUL',
+
+  payload: {
+    messege,
+  },
+}};
+
+export const logoutfails = error => {
+  
+  console.log("Inside logout fails")
+  console.log(error)
+  return{
+  type: 'LOG_OUT_FAIL',
+  payload: error,
+}};
+
+
+
+
+
 //CHANGE PIN
 export const changepinrequest = (name, oldpassword, newpassword) => ({
   type: 'CHANGE_PIN_REQUEST',
@@ -159,22 +200,26 @@ export const changepinfails = error => ({
 });
 
 //LOGOUT
-export const logoutrequest = username => ({
-  type: 'LOG_OUT_REQUEST',
-  username,
-});
-export const logoutsuccessful = messege => ({
-  type: 'LOG_OUT_SUCCESSFUL',
 
-  payload: {
-    messege,
-  },
-});
 
-export const logoutfails = error => ({
-  type: 'LOG_OUT_FAIL',
-  payload: error,
-});
+// export const logoutrequest = username => ({
+//   type: 'LOG_OUT_REQUEST',
+//   username,
+// });
+
+
+// export const logoutsuccessful = messege => ({
+//   type: 'LOG_OUT_SUCCESSFUL',
+
+//   payload: {
+//     messege,
+//   },
+// });
+
+// export const logoutfails = error => ({
+//   type: 'LOG_OUT_FAIL',
+//   payload: error,
+// });
 
 // CLEAN
 export const clearerror = () => ({
