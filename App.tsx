@@ -13,13 +13,15 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {Provider as ReduxProvider, useSelector} from 'react-redux';
 import store from './Redux/store/store';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-export const navigationRef = createNavigationContainerRef();
+
 import * as Keychain from 'react-native-keychain';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { get } from 'http';
+
 import { tokencheck } from './Redux/action/auth';
 
+
+export const navigationRef = createNavigationContainerRef();
 // Define a type for your Redux state (replace with your actual RootState)
 interface RootState {
   auth: {
@@ -34,21 +36,62 @@ const App = () => {
 
   const dispatch = useDispatch();
 
-  const getToken = async () => {
+//   const getToken = async () => {
    
-    const accessToken = await Keychain.getGenericPassword('accessToken');
-    console.log('Access Token:', accessToken);
-    return accessToken
-    // const  refreshToken = await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
- };
+//     const accessToken = await Keychain.getGenericPassword('accessToken');
+//     console.log('Access Token:', accessToken);
+//     return accessToken
+//     // const  refreshToken = await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
+//  };
 
-if(getToken!== null){
- useEffect(()=>{
- dispatch(
-tokencheck());
-},[])
+// if(getToken!== null){
+//  useEffect(()=>{
+//  dispatch(
+// tokencheck());
+// },[])
 
-}
+//  }
+ // useEffect to check token validity on app mount
+  useEffect(() => {
+    const checkAndDispatchToken = async () => {
+      try {
+        // Attempt to retrieve the access token from Keychain
+        // Keychain.getGenericPassword returns credentials object if found, or false if not
+        const credentials = await Keychain.getGenericPassword({ service: 'accessToken' }); // Assuming 'accessToken' is the service name you used for the access token
+
+        // If credentials exist (meaning a token was found)
+        if (credentials) {
+          console.log('Token found in Keychain. Dispatching tokencheck.');
+          // Dispatch the tokencheck action to validate the token
+          dispatch(tokencheck());
+        } else {
+          console.log('No token found in Keychain. Skipping tokencheck.');
+          // No token found, isAuthenticated should remain false,
+          // leading to rendering AuthScreens.
+        }
+      } catch (error) {
+        console.error('Error retrieving token from Keychain:', error);
+        // Handle errors during Keychain access, e.g., dispatch an error action
+        // or ensure isAuthenticated is false.
+      }
+    };
+
+    // Call the async function to perform the check and dispatch
+    checkAndDispatchToken();
+
+    // Optional: Add a cleanup function if needed
+    // return () => {
+    //   // Cleanup logic
+    // };
+  }, [dispatch]); // Dependency array includes dispatch
+
+  // This state and console log seem unused based on the current logic.
+  // If you're not using this state, you can remove it.
+
+
+
+
+
 
 
 

@@ -1,130 +1,118 @@
 import React, { useEffect, useState } from 'react';
-// import DispatchScreen from '../screens/DispatchScreen';
-// import GoodsInScreen from '../screens/GoodsInScreen';
-// import InventoryControlScreen from '../screens/InventoryControlScreen';
-// import EscalationScreen from '../screens/EscalationScreen';
-// import SecurityScreen from '../screens/SecurityScreen';
-import TestingScreen from '../screens/TestingScreen';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { useContext } from 'react';
-// import { SnackbarContext } from '../context/Snackbar';
-// import { clearerror, clearmessege } from '../Redux/action/auth';
-// import Loader from '../components/Loader';
-// import ReturnsScreen from '../screens/ReturnsScreen';
-// import HomeScreen from '../screens/HomeScreen';
-// import Hoc from '../hoc/Hoc';
-// import CustomHeader from '../components/CustomHeader';
 import { createStackNavigator } from '@react-navigation/stack';
 import Loader from '../components/Loader';
 import { useSelector } from 'react-redux';
-// import PropTypes from 'prop-types'
-// import { connect } from 'react-redux';
-
-// import { AppState } from 'react-native';
-// import { isinactivestate } from '../Redux/action/auth'
+import * as Keychain from 'react-native-keychain';
+import TestingScreen from '../screens/TestingScreen'; // Assuming this is the initial screen
 
 const AppScreens = () => {
-
   const App = createStackNavigator();
 
+  // Access the loading state and the user object from Redux
+  const { loading, user } = useSelector(state => state.auth);
 
+  // State to track if tokens have been stored to prevent repeated storage attempts
+  const [tokensStored, setTokensStored] = useState(false);
 
-  // const { handleSnackbar } = useContext(SnackbarContext);
+  // useEffect to handle token storage when user data is available
+  useEffect(() => {
+    const storeTokens = async () => {
+      // Check if user data and tokens exist, and if tokens haven't been stored yet
+      if (user?.data?.accessToken && user?.data?.refreshToken && !tokensStored) {
+        try {
+          // Store the access token using a generic password
+          await Keychain.setGenericPassword('accessToken', user.data.accessToken);
+          // Store the refresh token using a generic password
+          await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
+          console.log('Tokens stored successfully!');
+          // Mark tokens as stored to prevent re-storing on subsequent state changes
+          setTokensStored(true);
+        } catch (error) {
+          console.error('Error storing tokens:', error);
+          // Implement appropriate error handling here, e.g., show a user message
+        }
+      }
+    };
 
-   const  {loading}  = useSelector(state => state.auth);
+    // Call the storeTokens function
+    storeTokens();
 
-  // const dispatch = useDispatch();
+    // Optional: Add a cleanup function to clear tokens on component unmount or logout
+    // return () => {
+    //   // Logic to clear tokens, e.g., call a clearTokens function
+    // };
 
-  // useEffect(() => {
-  //   if (error) {
-  //     handleSnackbar(error);
-  //     clearerror();
-  //   } else if (messege) {
-  //     handleSnackbar({ messege });
-  //     clearmessege();
-  //   }
-  // }, [error, messege]);
-
-
-
-  // const dispatch = useDispatch()
-  // const { isAuthenticated } = useSelector(state => state.Auth);
-  // console.log('Auth : ', isAuthenticated)
-  // const [aState, setAppState] = useState(AppState.currentState);
-
-  // useEffect(() => {
-  //   const appStateListener = AppState.addEventListener(
-  //     'change',
-  //     nextAppState => {
-  //       console.log('Next AppState is: ', nextAppState);
-  //       setAppState(nextAppState);
-  //       if (nextAppState === 'background') {
-  //         dispatch(isinactivestate());
-  //       }
-  //     },
-  //   );
-  //   return () => {
-  //     appStateListener?.remove();
-  //   };
-  // }, [dispatch]);
-
-  // console.log('App State is :', aState)
-
+  }, [user, tokensStored]); // Dependencies: Re-run effect if user or tokensStored state changes
 
   return (
     <>
-    {loading && <Loader />}
-      {/* {loading && <Loader />} */}
-      <App.Navigator
-        // screenOptions={{
-        //   header: () => <CustomHeader />,
-
-        //   headerStyle: {
-        //     elevation: 0,
-        //     shadowOpacity: 0,
-        //     borderBottomWidth: 0,
-
-        //   },
-        // }}
-        >
-        <>
-        <App.Screen name="TestingScreen"  component={TestingScreen} />
-
-          {/* <App.Screen name="Home" component={Hoc(HomeScreen)} /> */}
-{/* 
-          <App.Screen name="Dispatch" component={Hoc(DispatchScreen)} />
-
-
-          <App.Screen name="GoodsIn" component={Hoc(GoodsInScreen)} />
-
-          <App.Screen name="Returns" component={Hoc(ReturnsScreen)} />
-
-          <App.Screen
-            name="InventoryControl"
-            component={Hoc(InventoryControlScreen)}
-          />
-
-          <App.Screen name="Escalation" component={Hoc(EscalationScreen)} />
-          <App.Screen name="Security" component={Hoc(SecurityScreen)} />
-          <App.Screen name="Version" component={Hoc(VersionScreen)} /> */}
-
-        </>
+      {/* Show loader if loading state is true */}
+      {loading && <Loader />}
+      {/* Set up the navigation stack */}
+      <App.Navigator>
+        {/* Define your screens */}
+        <App.Screen name="TestingScreen" component={TestingScreen} />
+        {/* Add other screens here, e.g.: */}
+        {/* <App.Screen name="Home" component={HomeScreen} /> */}
+        {/* <App.Screen name="Dispatch" component={DispatchScreen} /> */}
+        {/* ... other screens */}
       </App.Navigator>
     </>
   );
 };
-// AppScreen.propTypes = {
-
-//   Auth: PropTypes.object.isRequired,
-//   clearerror: PropTypes.func.isRequired,
-//   clearmessege: PropTypes.func.isRequired
-// }
-
-// const mapStateToProps = (state) => ({
-//   Auth: state.Auth
-// })
-
-// export default connect(mapStateToProps, { clearmessege, clearerror })(AppScreen);
-
 
 export default AppScreens;
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import { createStackNavigator } from '@react-navigation/stack';
+// import Loader from '../components/Loader';
+// import { useSelector } from 'react-redux';
+// import * as Keychain from 'react-native-keychain';
+// import TestingScreen from '../screens/TestingScreen'; // Assuming this is the initial screen
+
+// const AppScreens = () => {
+//   const App = createStackNavigator();
+
+//   const { loading, user } = useSelector(state => state.auth); // Access the whole user object
+
+//   // Use state to track if tokens have been stored to prevent repeated calls
+//   const [tokensStored, setTokensStored] = useState(false);
+
+//   useEffect(() => {
+//     const storeTokens = async () => {
+//       if (user?.data?.accessToken && user?.data?.refreshToken && !tokensStored) {
+//         try {
+//           await Keychain.setGenericPassword('accessToken', user.data.accessToken);
+//           await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
+//           console.log('Tokens stored successfully!');
+//           setTokensStored(true); // Mark tokens as stored
+//         } catch (error) {
+//           console.error('Error storing tokens:', error);
+//           // Handle the error appropriately
+//         }
+//       }
+//     };
+
+//     storeTokens();
+
+//     // You might also want a cleanup effect to clear tokens on logout
+//     // return () => {
+//     //   // Logic to clear tokens on component unmount or logout
+//     // };
+
+//   }, [user, tokensStored]); // Depend on user and tokensStored state
+
+//   return (
+//     <>
+//       {loading && <Loader />}
+//       <App.Navigator>
+//         <App.Screen name="TestingScreen" component={TestingScreen} />
+//         {/* Add other screens here */}
+//       </App.Navigator>
+//     </>
+//   );
+// };
+
+// export default AppScreens;
