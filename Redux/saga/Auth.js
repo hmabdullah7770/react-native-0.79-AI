@@ -451,7 +451,7 @@ function* LogoutSaga() {
     if (response.status === 200) {
       yield put(
         actions.logoutsuccessful([
-          'logged out Successful',
+          response.data,
           'You are logged out',
           // EncryptedStorage.clear('azure_token')
         ]),
@@ -510,9 +510,10 @@ function* ForgetpasswordSaga() {
     const response = yield call(api.forgetpassword);
 
     if (response.status === 200) {
+      console.log('Response data:', response.data);
       yield put(
         actions.forgetpasswordsuccessful([
-          'Password reset link sent to your email',
+          response.data,
           'Please check your email',
         ]),
       );
@@ -547,7 +548,7 @@ function* ResetpasswordSaga() {
       console.log('Response data:', response.data);
       yield put(
         actions.resetpasswordsuccessful([
-          'Password reset link sent to your email',
+          response.data,
           'Please check your email',
         ]),
       );
@@ -581,8 +582,8 @@ function* ResendOtpSaga() {
       console.log('Response data:', response.data);
       yield put(
         actions.resendotpsuccessful([
-          'OTP resent successfully',
-          'Please check your email',
+          response.data,
+          'OTP sent successfully',
         ]),
       );
     } else {
@@ -619,9 +620,10 @@ function* ChangeAvatarSaga() {
         ]),
       );
     } else {
+      console.log('Response status:', response.status);
       yield put(
         actions.changeavatarfails({
-          error: `Unexpected response status: ${response.status}`,
+          error: `Unexpected response status: ${response.status} ${response.error}`,
         }),
       );
     }
