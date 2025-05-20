@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getWorkingBaseUrl = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/health`);
+    const response = await axios.get(`${BASE_URL}/users/healthcheck`);
     if (response.status === 200) {
         console.log("base url is", BASE_URL,"status is", response.status)
         return { url: BASE_URL, status: response.status };
