@@ -71,12 +71,12 @@ export const azurelogin = (username) =>
 
 
 
-export const changepin = (username, pin, newpin) =>
-  api.post('mobile/ChangePin', {
-    username,
-    newpin,
-    pin,
-    azureUserName: 'ayesha.zahid',
+export const changepassword = (oldpassword, newpassword) =>
+  api.post('/users/change-password', {
+  
+    newpassword,
+    oldpassword,
+  
   });
 
 export const logout = () =>
@@ -92,6 +92,32 @@ export const logout = () =>
   
   );
 
+
+  export const forgetpassword =(email)=>
+    api.post('/users/forget-password', {
+      email,
+  
+    });
+
+
+export const resetpassword =(email, otp, newpassword)=>
+  api.post('/users/reset-password', {
+    email,
+    otp,
+    newpassword,
+  });
+
+
+  export const resendotp =(email)=>
+    api.post('/users/re-send-otp', {
+      email,
+    });
+
+
+export const changeavatar = (avatar) =>
+  api.patch('/users/avatar', {
+    avatar
+  });
 
 
 

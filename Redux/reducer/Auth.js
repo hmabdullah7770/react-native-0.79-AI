@@ -38,6 +38,14 @@ const initialState = {
     switch (action.type) {
 
 
+         case  'CLEAR_STORE':
+          return{
+
+            initialState
+          }
+
+
+
     case 'TOKEN_CHECK':
       
     return{
@@ -184,14 +192,15 @@ case 'MATCH_USERNAME_SUCCESSFUL':
           loading: action.payload,
         };
   
-      case 'CHANGE_PIN_SUCCESSFUL':
+      case 'CHANGE_PASSWORD_SUCCESSFUL':
+        console.log('Change Pin Failed: ', action.payload.data);
         return {
           ...state,
           data: action.payload.data,
           messege: action.payload.messege,
         };
   
-      case 'CHANGE_PIN_FAIL':
+      case 'CHANGE_PASSWORD_FAIL':
         console.log('Change Pin Failed: ', action.payload.error);
         return {
           ...state,
@@ -219,7 +228,97 @@ case 'MATCH_USERNAME_SUCCESSFUL':
         return { ...state, error: action.payload.error };
       }
   
+
+      case 'FORGET_PASSWORD_SUCCESSFUL':{
+        console.log('FORGET_PASSWORD_SUCCESSFUL : ', action.payload);
+        return{
+          ...state,
+          user: action.payload.data,
+          isAuthenticated: false,
+        }
+      
+      }
+
+
+      case 'FORGET_PASSWORD_FAIL':{
+        console.log('FORGET_PASSWORD_FAIL : ', action.payload.error);
+        return{
+          ...state,
+          user: null,
+          screen: null,
+          isAuthenticated: false,
+          error: action.payload.error,
+          messege: null,
+        }
+      }
+
+      case 'RESET_PASSWORD_SUCCESSFUL':{
+        console.log('RESET_PASSWORD_SUCCESSFUL : ', action.payload);
+        return{
+          ...state,
+          user: action.payload.data,
+          isAuthenticated: false,
+        }
+      
+      }
+
+      case 'RESET_PASSWORD_FAIL':{
+        console.log('RESET_PASSWORD_FAIL : ', action.payload.error);
+        return{
+          ...state,
+          user: null,
+          screen: null,
+          isAuthenticated: false,
+          error: action.payload.error,
+          messege: null,
+        }
+      }
+
+      case 'RESEND_OTP_SUCCESSFUL':{
+        console.log('RESEND_OTP_SUCCESSFUL : ', action.payload);
+        return{
+          ...state,
+          user: action.payload.data,
+          isAuthenticated: false,
+        }
+      
+      }
+
+      case 'RESEND_OTP_FAIL':{
+        console.log('RESEND_OTP_FAIL : ', action.payload.error);
+        return{
+          ...state,
+          user: null,
+          screen: null,
+          isAuthenticated: false,
+          error: action.payload.error,
+          messege: null,
+        }
+      }
   
+
+      case 'CHANGE_AVATAR_SUCCESSFUL':
+        console.log('Change Avatar Successful : ', action.payload.data);
+        return {
+          ...state,
+           isAuthenticated: true,
+          user: action.payload.data,
+          messege: action.payload.messege,
+        };
+
+        case 'CHANGE_AVATAR_FAIL':
+        console.log('Change Avatar Failed: ', action.payload.error);
+        return {
+          ...state,
+          user: null,
+          screen: null,
+          isAuthenticated: true,
+          error: action.payload.error,
+          messege: null,
+        };
+
+
+
       case 'SET_CLEAN_USERNAME':
         console.log('Reducer - Previous state cleanUsername:', state.cleanUsername);
         console.log('Reducer - Setting new cleanUsername:', action.payload);
@@ -228,6 +327,10 @@ case 'MATCH_USERNAME_SUCCESSFUL':
           cleanUsername: action.payload,
         };
   
+
+
+
+
       // case 'USER_STATE_SUCCESSFUL':
       //   console.log('UserStateStationid Successful : ', action.payload.stationid);
   

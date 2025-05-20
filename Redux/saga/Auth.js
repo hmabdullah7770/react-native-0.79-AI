@@ -349,12 +349,12 @@ function* LoginSaga(payload) {
         );
       }
     } else {
-      console.log('Unexpected status code:', response.status);
+      console.log('Unexpected status code:', response.status ,"error:",response.error);
       yield put(
         actions.loginfail({
           error: [
             `Unexpected response status: ${response.status}`,
-            'please try again',
+            `${response.error} please try again,`
           ],
         }),
       );
@@ -372,12 +372,14 @@ function* LoginSaga(payload) {
   }
 }
 
-function* ChangepinSaga(payload) {
+
+
+function* ChangepasswordSaga(payload) {
+  
   yield put(actions.setloading(true));
   try {
     const response = yield call(
-      api.changepin,
-      payload.name,
+      api.changepassword,
       payload.oldpassword,
       payload.newpassword,
     );
@@ -388,36 +390,43 @@ function* ChangepinSaga(payload) {
     if (response.status === 200) {
       if (!response.data || typeof response.data !== 'object') {
         yield put(
-          actions.changepinfails({
+          actions.changepasswordfails({
             error: [
               'Unexpected error occurred',
               'Response format is invalid or empty.',
             ],
           }),
         );
-      } else if (response.data.result.errorText) {
-        console.log('error :', response.data.errorText);
+      } else if (response.error) {
+        console.log('error :', response.error);
+        console.log('error without data:', response.error);
         yield put(
-          actions.changepinfails({
+          actions.changepasswordfails({
             error: [
-              response.data.result.errorText,
-              response.data.result.errorDetail,
+              response.error,
+             
             ],
           }),
         );
       } else {
+        console.log(`response` ,response.data)
+
         yield put(
-          actions.changepinsuccessful(
+          
+          actions.changepasswordsuccessful(
             response.data,
-            ['Your pin is successfully changed', 'now login with new pin'],
-            navigate('Login'),
+            // ['Your pin is successfully changed', 'now login with new pin'],
+            // navigate('Login'),
           ),
         );
       }
     } else {
       yield put(
-        actions.changepinfails({
-          error: `Unexpected response status: ${response.status}`,
+        actions.changepasswordfails({
+          error: [
+            `Unexpected response status: ${response.status}`,
+            `${response.error} please try again,`
+          ],
         }),
       );
     }
@@ -426,12 +435,13 @@ function* ChangepinSaga(payload) {
     yield put(actions.setloading(false));
 
     yield put(
-      actions.changepinfails({
+      actions.changepasswordfails({
         error: ['An error occurred', error.message || 'Unknown error'],
       }),
     );
   }
 }
+
 
 function* LogoutSaga() {
   yield put(actions.setloading(true));
@@ -460,8 +470,6 @@ function* LogoutSaga() {
    
     }
 
-
-
     else if(response.status === 401  &&  response.error ==="jwt expired"){
       
       console.log('jwt expired', response);
@@ -475,7 +483,6 @@ function* LogoutSaga() {
    
     }
     
-
     else {
       yield put(
         actions.logoutfails({
@@ -496,15 +503,154 @@ function* LogoutSaga() {
 }
 
 
+function* ForgetpasswordSaga() {
+
+  yield put(actions.setloading(true));
+  try {
+    const response = yield call(api.forgetpassword);
+
+    if (response.status === 200) {
+      yield put(
+        actions.forgetpasswordsuccessful([
+          'Password reset link sent to your email',
+          'Please check your email',
+        ]),
+      );
+    } else {
+      yield put(
+        actions.forgetpasswordfails({
+          error: `Unexpected response status: ${response.status}`,
+        }),
+      );
+    }
+    yield put(actions.setloading(false));
+  } catch (error) {
+    yield put(actions.setloading(false));
+
+    yield put(
+      actions.forgetpasswordfails({
+        error: ['An error occurred', error.message || 'Unknown error'],
+      }),
+    );
+  }
+
+
+}
+
+function* ResetpasswordSaga() {
+
+  yield put(actions.setloading(true));
+  try {
+    const response = yield call(api.resetpassword, payload.email, payload.otp, payload.newpassword);
+
+    if (response.status === 200) {
+      console.log('Response data:', response.data);
+      yield put(
+        actions.resetpasswordsuccessful([
+          'Password reset link sent to your email',
+          'Please check your email',
+        ]),
+      );
+    } else {
+      yield put(
+        console.log('Response status:', response.status, 'error',response.error),
+        actions.resetpasswordfails({
+          error: `Unexpected response status: ${response.status}`,
+        }),
+      );
+    }
+    yield put(actions.setloading(false));
+  } catch (error) {
+    yield put(actions.setloading(false));
+
+    yield put(
+      actions.resetpasswordfails({
+        error: ['An error occurred', error.message || 'Unknown error'],
+      }),
+    );
+  }
+
+}
+
+function* ResendOtpSaga() {
+  yield put(actions.setloading(true));
+  try {
+    const response = yield call(api.resendotp, payload.email);
+
+    if (response.status === 200) {
+      console.log('Response data:', response.data);
+      yield put(
+        actions.resendotpsuccessful([
+          'OTP resent successfully',
+          'Please check your email',
+        ]),
+      );
+    } else {
+      yield put(
+        actions.resendotpfails({
+          error: `Unexpected response status: ${response.status}`,
+        }),
+      );
+    }
+    yield put(actions.setloading(false));
+  } catch (error) {
+    yield put(actions.setloading(false));
+
+    yield put(
+      actions.resendotpfails({
+        error: ['An error occurred', error.message || 'Unknown error'],
+      }),
+    );
+  }
+}
+
+
+function* ChangeAvatarSaga() {
+  yield put(actions.setloading(true));
+  try {
+    const response = yield call(api.changeavatar, payload.avatar);
+
+    if (response.status === 200) {
+      console.log('Response data:', response.data);
+      yield put(
+        actions.changeavatarsuccessful([
+          response.data,
+          'Avatar changed successfully',
+        ]),
+      );
+    } else {
+      yield put(
+        actions.changeavatarfails({
+          error: `Unexpected response status: ${response.status}`,
+        }),
+      );
+    }
+    yield put(actions.setloading(false));
+  } catch (error) {
+    yield put(actions.setloading(false));
+
+    yield put(
+      actions.changeavatarfails({
+        error: ['An error occurred', error.message || 'Unknown error'],
+      }),
+    );
+  }
+}
+
+
 export function* watchAuthSaga() {
   yield takeLatest('AZURE_LOGIN_REQUEST', AzureLoginSaga);
   yield takeLatest('LOGIN_REQUEST', LoginSaga);
-  yield takeLatest('CHANGE_PIN_REQUEST', ChangepinSaga);
+  yield takeLatest('CHANGE_PASSWORD_REQUEST', ChangepasswordSaga);
   yield takeLatest('LOG_OUT_REQUEST', LogoutSaga);
   yield takeLatest('SIGNUP_REQUEST', SignUpSaga);
   yield takeLatest('MATCH_USERNAME_REQUEST', MatchUsernameSaga);
   yield takeLatest('MATCH_OTP_REQUEST', MatchOtpSaga);
   yield takeLatest('VERIFY_EMAIL_REQUEST', VerifyEmailSaga);
+  yield takeLatest('FORGET_PASSWORD_REQUEST', ForgetpasswordSaga);
+  yield takeLatest('RESET_PASSWORD_REQUEST', ResetpasswordSaga);
+  yield takeLatest('RESEND_OTP_REQUEST', ResendOtpSaga);
+  yield takeLatest('CHANGE_AVATAR_REQUEST', ChangeAvatarSaga);
 
 }
 

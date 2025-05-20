@@ -3,6 +3,14 @@ export const tokencheck = () => ({
   type: 'TOKEN_CHECK',
  });
 
+
+ //clear Store
+
+ export const clearstore = ()=>({
+
+  type: 'CLEAR_STORE'
+
+ })
  
 
 
@@ -180,25 +188,96 @@ export const logoutfails = error => {
 
 
 //CHANGE PIN
-export const changepinrequest = (name, oldpassword, newpassword) => ({
-  type: 'CHANGE_PIN_REQUEST',
+export const changepasswordrequest = (name, oldpassword, newpassword) => ({
+  type: 'CHANGE_PASSWORD_REQUEST',
   name,
   newpassword,
   oldpassword,
 });
 
-export const changepinsuccessful = (data, messege) => ({
-  type: 'CHANGE_PIN_SUCCESSFUL',
+export const changepasswordsuccessful = (data, messege) => ({
+  type: 'CHANGE_PASSWORD_SUCCESSFUL',
   payload: {
     data,
     messege,
   },
 });
 
-export const changepinfails = error => ({
-  type: 'CHANGE_PIN_FAIL',
+export const changepasswordfails = error => ({
+  type: 'CHANGE_PASSWORD_FAIL',
   payload: error,
 });
+
+
+//FORGET PASSWORD
+export const forgetpasswordrequest = ( email) => ({
+  type: 'FORGET_PASSWORD_REQUEST',
+  email,
+});
+
+export const forgetpasswordsuccessful = (data, messege) => ({
+  type: 'FORGET_PASSWORD_SUCCESSFUL',
+  payload: { data, messege },
+});
+export const forgetpasswordfails = error => ({
+  type: 'FORGET_PASSWORD_FAIL',
+  payload: error,
+});
+
+
+//RESET PASSWORD
+
+export const resetpasswordrequest = (email, otp, newpassword) => ({
+  type: 'RESET_PASSWORD_REQUEST',
+  email,
+  otp,
+  newpassword,
+});
+
+export const resetpasswordsuccessful = (data, messege) => ({
+  type: 'RESET_PASSWORD_SUCCESSFUL',
+  payload: { data, messege },
+});
+
+export const resetpasswordfails = error => ({
+  type: 'RESET_PASSWORD_FAIL',
+  payload: error,
+});
+
+
+//RESEND OTP
+export const resendotprequest = (email) => ({
+  type: 'RESEND_OTP_REQUEST',
+  email,
+});
+
+export const resendotpsuccessful = (data, messege) => ({
+  type: 'RESEND_OTP_SUCCESSFUL',
+  payload: { data, messege },
+});
+
+export const resendotpfails = error => ({
+  type: 'RESEND_OTP_FAIL',
+  payload: error,
+});
+
+
+//change avatar or profile pic
+
+export const changeavatarrequest = (avatar) => ({
+  type: 'CHANGE_AVATAR_REQUEST',
+  avatar,
+});
+export const changeavatarsuccessful = (data, messege) => ({
+  type: 'CHANGE_AVATAR_SUCCESSFUL',
+  payload: { data, messege },
+});
+
+export const changeavatarfails = error => ({
+  type: 'CHANGE_AVATAR_FAIL',
+  payload: error,
+});
+
 
 //LOGOUT
 
