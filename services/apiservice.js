@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { Producturl } from '../utils/apiconfig';
 import * as Keychain from 'react-native-keychain';
+import { logoutrequest } from '../Redux/action/auth';
+import { useDispatch } from 'react-redux';
 
 const api = axios.create({
   baseURL: Producturl(),
@@ -9,6 +11,7 @@ const api = axios.create({
   },
 });
 
+const dispatch = useDispatch();
 // Helper functions
 const getAccessToken = async () => {
   const credentials = await Keychain.getGenericPassword({ service: 'accessToken' });
@@ -83,6 +86,8 @@ api.interceptors.response.use(
       } catch (refreshError) {
         // On refresh failure, remove tokens
         await removeTokens();
+        dispatch(logoutrequest());
+        console.error("Refresh token error:", refreshError);
         return Promise.reject(refreshError);
       }
     }

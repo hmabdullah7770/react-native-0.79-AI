@@ -79,16 +79,16 @@ export const changepin = (username, pin, newpin) =>
     azureUserName: 'ayesha.zahid',
   });
 
-export const logout = accessToken =>
+export const logout = () =>
   api.post('/users/logout', 
   
-  {
-    headers: {
+  // {
+  //   headers: {
 
-      Authorization: `Bearer ${accessToken}`,
+  //     Authorization: `Bearer ${accessToken}`,
       
 
-    },}
+  //   },}
   
   );
 

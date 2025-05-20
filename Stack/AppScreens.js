@@ -4,6 +4,7 @@ import Loader from '../components/Loader';
 import { useSelector } from 'react-redux';
 import * as Keychain from 'react-native-keychain';
 import TestingScreen from '../screens/TestingScreen'; // Assuming this is the initial screen
+import Tabnavigation from '../screens/tabNavigation/Tabnavigation'
 
 const AppScreens = () => {
   const App = createStackNavigator();
@@ -51,6 +52,7 @@ const AppScreens = () => {
       {/* Set up the navigation stack */}
       <App.Navigator>
         {/* Define your screens */}
+        <App.Screen name="Tabnavigation" component={Tabnavigation} />
         <App.Screen name="TestingScreen" component={TestingScreen} />
         {/* Add other screens here, e.g.: */}
         {/* <App.Screen name="Home" component={HomeScreen} /> */}
