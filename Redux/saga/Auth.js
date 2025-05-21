@@ -326,12 +326,12 @@ function* LoginSaga(payload) {
             ],
           }),
         );
-      } else if (response.data.message) {
-        console.log('Login failed with message:', response.data.message);
+      } else if (response.data.error) {
+        console.log('Login failed with message:', response.data.error);
         yield put(
           actions.loginfail({
             error: [
-              response.data.result.message,
+              response.data.error,
               // response.data.result.errorDetail,
               // response.data.result.errorText.includes('Reset PIN')
               //   ? navigate('Change')
@@ -349,12 +349,12 @@ function* LoginSaga(payload) {
         );
       }
     } else {
-      console.log('Unexpected status code:', response.status ,"error:",response.error);
+      console.log('Unexpected status code:', response.status ,"error:",response.data.error);
       yield put(
         actions.loginfail({
           error: [
             `Unexpected response status: ${response.status}`,
-            `${response.error} please try again,`
+            `${response.data.error} please try again,`
           ],
         }),
       );
@@ -397,13 +397,13 @@ function* ChangepasswordSaga(payload) {
             ],
           }),
         );
-      } else if (response.error) {
-        console.log('error :', response.error);
-        console.log('error without data:', response.error);
+      } else if (response.data.error) {
+        console.log('error :', response.data.error);
+        console.log('error without data:', response.data.error);
         yield put(
           actions.changepasswordfails({
             error: [
-              response.error,
+              response.data.error,
              
             ],
           }),
@@ -425,7 +425,7 @@ function* ChangepasswordSaga(payload) {
         actions.changepasswordfails({
           error: [
             `Unexpected response status: ${response.status}`,
-            `${response.error} please try again,`
+            `${response.data.error} please try again,`
           ],
         }),
       );
@@ -457,7 +457,7 @@ function* LogoutSaga() {
         ]),
       );
     } 
-    else if(response.status === 401  &&  response.error ==="invalid token"){
+    else if(response.status === 401  &&  response.data.error ==="invalid token"){
       
       console.log('invalid token', response);
       yield put(
@@ -470,7 +470,7 @@ function* LogoutSaga() {
    
     }
 
-    else if(response.status === 401  &&  response.error ==="jwt expired"){
+    else if(response.status === 401  &&  response.data.error ==="jwt expired"){
       
       console.log('jwt expired', response);
       yield put(
@@ -554,7 +554,7 @@ function* ResetpasswordSaga() {
       );
     } else {
       yield put(
-        console.log('Response status:', response.status, 'error',response.error),
+        console.log('Response status:', response.status, 'error',response.data.error),
         actions.resetpasswordfails({
           error: `Unexpected response status: ${response.status}`,
         }),
@@ -623,7 +623,7 @@ function* ChangeAvatarSaga() {
       console.log('Response status:', response.status);
       yield put(
         actions.changeavatarfails({
-          error: `Unexpected response status: ${response.status} ${response.error}`,
+          error: `Unexpected response status: ${response.status} ${response.data.error}`,
         }),
       );
     }
