@@ -2,6 +2,7 @@ import { call, put, takeLatest, fork } from 'redux-saga/effects';
 import * as actions from '../action/auth';
 // import * as actions from '../action/components'
 import * as api from '../../API/auth';
+import * as Keychain from 'react-native-keychain';
 import { navigate } from '../../utils/rootNavigation';
 // import EncryptedStorage from 'react-native-encrypted-storage';
 
@@ -445,10 +446,12 @@ function* ChangepasswordSaga(payload) {
 
 function* LogoutSaga() {
   yield put(actions.setloading(true));
+  
   try {
     const response = yield call(api.logout);
 
     if (response.status === 200) {
+       yield call([Keychain, 'resetGenericPassword']);
       yield put(
         actions.logoutsuccessful([
           response.data,

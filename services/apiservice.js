@@ -97,9 +97,10 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshError) {
         // On refresh failure, remove tokens
-        await removeTokens();
+      
         // dispatch(logoutrequest());
-          getStore().dispatch(logoutrequest());
+         await getStore().dispatch(logoutrequest());
+         removeTokens();
         console.error("Refresh token error:", refreshError);
         return Promise.reject(refreshError);
       }

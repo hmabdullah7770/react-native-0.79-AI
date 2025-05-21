@@ -3,13 +3,15 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import ProfileScreen from './ProfileScreen';
 import ProfileSetting from './ProfileSetting';
+import { ModalProvider } from '../context/useModal'
+import CustomModal from '../components/CustomModal';
 
 
 const ProfileStack = () => {
     const Profile = createStackNavigator();
       
   return (
-    
+    <ModalProvider>
      <Profile.Navigator>
     
         <Profile.Screen name="ProfileScreen" component={ProfileScreen} 
@@ -18,6 +20,8 @@ const ProfileStack = () => {
          <Profile.Screen name="ProfileSetting" component={ProfileSetting} />
   
     </Profile.Navigator>
+    <CustomModal />
+    </ModalProvider>
   )
 }
 
