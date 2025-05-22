@@ -12,7 +12,7 @@ const AppScreens = () => {
   // Access the loading state and the user object from Redux
   const { loading, user } = useSelector(state => state.auth);
 
-console.log("user token: ",user.data.data.accessToken);
+console.log("user token: ",user?.data?.data?.accessToken);
 
 
   // State to track if tokens have been stored to prevent repeated storage attempts
@@ -25,9 +25,9 @@ console.log("user token: ",user.data.data.accessToken);
       if (user?.data?.data?.accessToken && user?.data?.data?.refreshToken && !tokensStored) {
         try {
           // Store the access token using a generic password
-          await Keychain.setGenericPassword('accessToken', user.data.data.accessToken);
+          await Keychain.setGenericPassword('accessToken', user?.data?.data?.accessToken,{service:'accessToken'});
           // Store the refresh token using a generic password
-          await Keychain.setGenericPassword('refreshToken', user.data.data.refreshToken);
+          await Keychain.setGenericPassword('refreshToken', user?.data?.data?.refreshToken,{service:'accessToken'});
           console.log('Tokens stored successfully!');
           // Mark tokens as stored to prevent re-storing on subsequent state changes
           setTokensStored(true);

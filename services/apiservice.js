@@ -26,13 +26,17 @@ const api = axios.create({
 // const dispatch = useDispatch();
 // Helper functions
 const getAccessToken = async () => {
-  const credentials = await Keychain.getGenericPassword({ service: 'accessToken' });
-  return credentials ? credentials.password : null;
+  const credentials = await Keychain.getGenericPassword({ service: 'accessToken'});
+  
+    return credentials ? credentials.password : null;
+
 };
 
 const getRefreshToken = async () => {
   const credentials = await Keychain.getGenericPassword({ service: 'refreshToken' });
+  console.log("refresh token is", credentials)
   return credentials ? credentials.password : null;
+
 };
 
 const setTokens = async (accessToken, refreshToken) => {

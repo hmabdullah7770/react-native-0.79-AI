@@ -79,22 +79,17 @@ export const changepassword = (oldpassword, newpassword) =>
   
   });
 
-export const logout =async () =>{
+export const logout =async () =>
   
-    const credentials = await Keychain.getGenericPassword('accessToken');
-  const accessToken = credentials ? credentials.password : null;
+    // const credentials = await Keychain.getGenericPassword({service:'accessToken'});
+    // console.log("access token in api ") 
+    // console.log("access token in api ", credentials)
+    // const accessToken = credentials ? credentials.password : null;
   api.post('/users/logout', 
-  
-  {
-    headers: {
 
-      Authorization: `Bearer ${accessToken}`,
-      
-
-    },}
   
   );
-}
+
 
   export const forgetpassword =(email)=>
     api.post('/users/forget-password', {
