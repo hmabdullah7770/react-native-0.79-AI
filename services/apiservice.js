@@ -91,7 +91,7 @@ api.interceptors.response.use(
             },
           }
         );
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = refreshResponse.data;
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } = refreshResponse.data.data;
 
         // Remove old tokens and set new ones
         await setTokens(newAccessToken, newRefreshToken);
@@ -104,7 +104,7 @@ api.interceptors.response.use(
       
         // dispatch(logoutrequest());
          await getStore().dispatch(logoutrequest());
-         removeTokens();
+        await removeTokens();
         console.error("Refresh token error:", refreshError);
         return Promise.reject(refreshError);
       }
