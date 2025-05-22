@@ -459,6 +459,9 @@ function* LogoutSaga() {
           // EncryptedStorage.clear('azure_token')
         ]),
       );
+
+            // Clear store after successful logout
+      yield put(actions.clearstore());
     } 
     else if(response.status === 401  &&  response.data.error ==="invalid token"){
       
@@ -489,7 +492,7 @@ function* LogoutSaga() {
     else {
       yield put(
         actions.logoutfails({
-          error: `Unexpected response status: ${response.status}`,
+          error: `Unexpected response status: ${response.status}  ${response.data.error}`,
         }),
       );
     }

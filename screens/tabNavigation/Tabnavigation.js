@@ -39,7 +39,7 @@ const Tabnavigation = () => {
 
           return <Icon name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#007AFF',
+         tabBarActiveTintColor: 'rgb(2, 222, 134)',
         tabBarInactiveTintColor: 'gray',
         headerShown: false, // If you don't want headers
       })}

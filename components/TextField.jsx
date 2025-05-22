@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputFocused: {
-    borderColor: 'orange',
-    borderWidth: 1,
+    borderColor: '#1FFFA5',
+    borderWidth: 2,
   },
   inputError: {
     borderColor: 'red',

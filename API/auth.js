@@ -79,19 +79,22 @@ export const changepassword = (oldpassword, newpassword) =>
   
   });
 
-export const logout = () =>
+export const logout =async () =>{
+  
+    const credentials = await Keychain.getGenericPassword('accessToken');
+  const accessToken = credentials ? credentials.password : null;
   api.post('/users/logout', 
   
-  // {
-  //   headers: {
+  {
+    headers: {
 
-  //     Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       
 
-  //   },}
+    },}
   
   );
-
+}
 
   export const forgetpassword =(email)=>
     api.post('/users/forget-password', {

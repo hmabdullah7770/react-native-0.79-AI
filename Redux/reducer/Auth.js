@@ -41,7 +41,7 @@ const initialState = {
          case  'CLEAR_STORE':
           return{
 
-            initialState
+           ...initialState
           }
 
 

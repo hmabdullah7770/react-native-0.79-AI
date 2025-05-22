@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontFamily: 'Poppins-Regular',
     fontWeight: 'bold',
-    color: '#fff',
+    color: 'black',
     fontSize: 16,
     // fontWeight: '600'
     // backgroundColor: 
@@ -158,18 +158,22 @@ const styles = StyleSheet.create({
     marginBottom: 90,
   },
   button: {
-    backgroundColor: '#f9213f', // iOS blue color
+    backgroundColor: '#1FFFA5', // iOS blue colorrgba(4, 248, 150, 0.77)  #f9213f
     padding: 11,
     borderRadius: 10,
     width: '80%',
-    alignItems: 'center'
+    alignItems: 'center',
+   
   },
   buttonText: {
-    color: '#e51a68',
+    color: 'rgb(20, 238, 151)',
    textDecorationLine: 'underline',
    textDecorationStyle: 'solid',
+    fontFamily: 'Poppins-Regular',
+    fontWeight: 'bold',
  // matches your button color
-   letterSpacing: 0.5
+   letterSpacing: 0.3
+   
   },
   eye: {
     position: 'absolute',

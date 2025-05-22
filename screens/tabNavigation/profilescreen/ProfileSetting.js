@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { logoutrequest } from '../../../Redux/action/auth';
 import Button from '../components/Button';
-import { useModal } from '../context/ModalContext';
+import { useModal } from '../context/useModal';
 
 const ProfileSetting = () => {
   const dispatch = useDispatch();

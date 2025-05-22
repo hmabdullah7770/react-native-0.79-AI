@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Modal, TouchableOpacity } from 'react-native';
 import React from 'react';
-import Icon from '@react-native-vector-icons/Ionicons';
-import { useModal } from '../context/ModalContext';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useModal } from '../context/useModal';
 
 const CustomModal = () => {
   const { modalConfig, hideModal } = useModal();
