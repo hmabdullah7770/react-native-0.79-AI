@@ -79,7 +79,7 @@ export const changepassword = (oldpassword, newpassword) =>
   
   });
 
-export const logout =async () =>
+export const logout = ()=>
   
     // const credentials = await Keychain.getGenericPassword({service:'accessToken'});
     // console.log("access token in api ") 

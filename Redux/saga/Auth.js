@@ -454,7 +454,7 @@ function* LogoutSaga() {
        yield call([Keychain, 'resetGenericPassword']);
       yield put(
         actions.logoutsuccessful([
-          response.data,
+          response.data.message,
           'You are logged out',
           // EncryptedStorage.clear('azure_token')
         ]),
@@ -645,9 +645,40 @@ function* ChangeAvatarSaga() {
   }
 }
 
+function* TokenCheckSaga() {
+  try {
+    yield put(actions.setloading(true));
+    // Attempt to retrieve the access token from Keychain
+    const credentials = yield call([Keychain, 'getGenericPassword'], { service: 'accessToken' });
+
+    if (credentials && credentials.password) {
+      // If token found, you might want to call an API to validate it and get user data
+      // For now, we'll assume finding the token means authenticated, but fetching user data is better practice
+      // const userResponse = yield call(api.getUserData, credentials.password); // You need to implement getUserData API
+
+      // Assuming finding token means authenticated and maybe user data is stored elsewhere or not needed immediately in state
+      // If user data is needed, you'd fetch it here and pass to the success action
+      yield put(actions.tokenchecksuccessful(
+        credentials.password ,
+         
+        // or userResponse.data if you fetch user data
+        
+      ));
+    } else {
+      // No token found, dispatch a failure or clear state
+      yield put(actions.tokencheckfail()); // Create this action
+    }
+  } catch (error) {
+    console.error('TokenCheckSaga error:', error);
+    yield put(actions.tokencheckfail(error.message || 'Unknown error')); // Create this action
+  } finally {
+    yield put(actions.setloading(false));
+  }
+}
 
 export function* watchAuthSaga() {
   yield takeLatest('AZURE_LOGIN_REQUEST', AzureLoginSaga);
+  yield takeLatest('TOKEN_CHECK_REQUEST', TokenCheckSaga);
   yield takeLatest('LOGIN_REQUEST', LoginSaga);
   yield takeLatest('CHANGE_PASSWORD_REQUEST', ChangepasswordSaga);
   yield takeLatest('LOG_OUT_REQUEST', LogoutSaga);

@@ -223,9 +223,14 @@ case 'MATCH_USERNAME_SUCCESSFUL':
         };
   
       case 'LOG_OUT_FAILS': {
-        console.log('Logout Successful ', action.payload);
-  
-        return { ...state, error: action.payload.error };
+        console.log('Logout Fails ', action.payload);
+        return {
+          ...state,
+          user: null,
+          screen: null,
+          isAuthenticated: false,
+          error: action.payload.error,
+        };
       }
   
 
@@ -391,6 +396,33 @@ case 'MATCH_USERNAME_SUCCESSFUL':
       //     ...state,
       //     setuserstate: action.payload.error,
       //   };
+
+      case 'TOKEN_CHECK_SUCCESSFUL':
+        console.log('TOKEN_CHECK_SUCCESSFUL : ', action.payload);
+        return {
+          ...state,
+          user: action.payload,
+          isAuthenticated: true,
+          error: null,
+          messege: 'Token check successful',
+        };
+
+      case 'TOKEN_CHECK_FAIL':
+        console.log('TOKEN_CHECK_FAIL : ', action.payload.data);
+        return {
+          ...state,
+          user: null,
+          isAuthenticated: false,
+          error: action.payload || 'Token check failed',
+          messege: null,
+        };
+
+      case 'TOKEN_CHECK_REQUEST':
+        return {
+          ...state,
+          isAuthenticated: true,
+        };
+
       default:
         return state;
     }

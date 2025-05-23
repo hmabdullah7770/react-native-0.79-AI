@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { tokencheck } from './Redux/action/auth';
+import { tokencheckrequest } from './Redux/action/auth';
 
 
 export const navigationRef = createNavigationContainerRef();
@@ -56,6 +57,12 @@ const App = () => {
     const checkAndDispatchToken = async () => {
       try {
         // Attempt to retrieve the access token from Keychain
+      // console.log('Clearing all stored tokens...');
+      //   await Keychain.resetGenericPassword({service:'accessToken'});
+      //   await Keychain.resetGenericPassword({service:'refreshToken'});
+      //   console.log('Tokens cleared successfully');
+     
+     
         // Keychain.getGenericPassword returns credentials object if found, or false if not
         const credentials = await Keychain.getGenericPassword({ service: 'accessToken' }); // Assuming 'accessToken' is the service name you used for the access token
 
@@ -64,6 +71,7 @@ const App = () => {
           console.log('Token found in Keychain. Dispatching tokencheck.');
           // Dispatch the tokencheck action to validate the token
           dispatch(tokencheck());
+          dispatch(tokencheckrequest());
         } else {
           console.log('No token found in Keychain. Skipping tokencheck.');
           // No token found, isAuthenticated should remain false,

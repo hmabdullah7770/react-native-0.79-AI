@@ -1,3 +1,23 @@
+export const tokencheckrequest = () => {
+  console.log("Inside tokencheckrequest");
+ return {
+  type: 'TOKEN_CHECK_REQUEST',
+}};
+
+// Add success and fail actions for token check
+export const tokenchecksuccessful = (userData) => {
+  console.log("Inside tokenchecksuccessful");
+ return {
+  type: 'TOKEN_CHECK_SUCCESSFUL',
+  payload: userData, // Pass user data if fetched
+}};
+
+export const tokencheckfail = (error) => ({ type: 'TOKEN_CHECK_FAIL', payload: error });
+
+
+
+
+
 //token check action
 export const tokencheck = () => ({
   type: 'TOKEN_CHECK',
@@ -163,8 +183,7 @@ export const logoutrequest = ()=> {
 
 
 export const logoutsuccessful = messege => {
-  
-  console.log(payload.messege)
+  console.log(messege)
   return{
 
   type: 'LOG_OUT_SUCCESSFUL',
