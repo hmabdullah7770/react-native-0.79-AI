@@ -41,7 +41,7 @@ const CategouryList = () => {
   useEffect(() => {
     if (categoriesWithAll[selected]) {
       const selectedCategory = categoriesWithAll[selected].categouryname;
-      dispatch(categouryrequest({ categoury: selectedCategory }));
+      dispatch(categouryrequest( selectedCategory ));
     }
   }, [selected, dispatch]);
 
