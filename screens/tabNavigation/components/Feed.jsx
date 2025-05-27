@@ -1,15 +1,34 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, FlatList, View } from 'react-native'
 import React from 'react'
+import { useSelector } from 'react-redux'
 import Card from './Card'
+import FeedLoader from './FeedLoader'
 
-const feed = () => {
+const Feed = () => {
+  const { categourydata, loading } = useSelector((state) => state.categoury)
+  const items = categourydata?.messege || []
+
+  if (loading) {
+    return <FeedLoader />
+  }
+
   return (
-    <View>
-      <Card/>
+    <View style={styles.container}>
+      <FlatList
+        data={items}
+        renderItem={({ item }) => <Card item={item} />}
+        keyExtractor={item => item._id}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   )
 }
 
-export default feed
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
+  }
+})
 
-const styles = StyleSheet.create({})
+export default Feed
