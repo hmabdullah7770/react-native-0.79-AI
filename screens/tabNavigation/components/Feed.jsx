@@ -6,7 +6,7 @@ import FeedLoader from './FeedLoader'
 
 const Feed = () => {
   const { categourydata, loading } = useSelector((state) => state.categoury)
-  const items = categourydata?.messege || []
+  const items = categourydata?.data?.messege || []
 
   if (loading) {
     return <FeedLoader />
