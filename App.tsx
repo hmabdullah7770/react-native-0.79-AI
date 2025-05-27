@@ -60,7 +60,7 @@ const App = () => {
       // console.log('Clearing all stored tokens...');
       //   await Keychain.resetGenericPassword({service:'accessToken'});
       //   await Keychain.resetGenericPassword({service:'refreshToken'});
-      //   console.log('Tokens cleared successfully');
+      // //   console.log('Tokens cleared successfully');
      
      
         // Keychain.getGenericPassword returns credentials object if found, or false if not
@@ -70,7 +70,7 @@ const App = () => {
         if (credentials) {
           console.log('Token found in Keychain. Dispatching tokencheck.');
           // Dispatch the tokencheck action to validate the token
-          dispatch(tokencheck());
+          // dispatch(tokencheck());
           dispatch(tokencheckrequest());
         } else {
           console.log('No token found in Keychain. Skipping tokencheck.');
@@ -116,8 +116,8 @@ console.log('User in App.tsx :', user)
 //   const  refreshToken = await Keychain.setGenericPassword('refreshToken', user.data.refreshToken);
 // };
 
-  const [token,setToken] = useState<string | null>(null)
-  console.log('Current token:', token); 
+  // const [token,setToken] = useState<string | null>(null)
+  // console.log('Current token:', token); 
  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

@@ -27,7 +27,7 @@ console.log("user token: ",user?.data?.data?.accessToken);
           // Store the access token using a generic password
           await Keychain.setGenericPassword('accessToken', user?.data?.data?.accessToken,{service:'accessToken'});
           // Store the refresh token using a generic password
-          await Keychain.setGenericPassword('refreshToken', user?.data?.data?.refreshToken,{service:'accessToken'});
+          await Keychain.setGenericPassword('refreshToken', user?.data?.data?.refreshToken,{service:'refreshToken'});
           console.log('Tokens stored successfully!');
           // Mark tokens as stored to prevent re-storing on subsequent state changes
           setTokensStored(true);

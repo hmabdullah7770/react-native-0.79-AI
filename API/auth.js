@@ -1,6 +1,6 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../services/apiservice';
-import * as Keychain from 'react-native-keychain';
+
 
 
 

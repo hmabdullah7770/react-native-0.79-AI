@@ -451,7 +451,9 @@ function* LogoutSaga() {
     const response = yield call(api.logout);
 
     if (response.status === 200) {
-       yield call([Keychain, 'resetGenericPassword']);
+     // Should be - CORRECT
+yield call([Keychain, 'resetGenericPassword'], { service: 'accessToken' });
+yield call([Keychain, 'resetGenericPassword'], { service: 'refreshToken' });
       yield put(
         actions.logoutsuccessful([
           response.data.message,
