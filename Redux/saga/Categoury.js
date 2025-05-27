@@ -25,8 +25,8 @@ function* CategourySaga(payload) {
         yield put(
           actions.categouryfails({
             error: [
-              response.data.errorText,
-              response.data.errorDetail,
+              response.data.error,
+            
             ],
           }),
         );
@@ -40,7 +40,7 @@ function* CategourySaga(payload) {
       yield put(
         actions.categouryfails({
           error: [
-            `Unexpected response status: ${response ? response.status : 'no response'}`,
+            `Unexpected response status: ${response.status}  and  error:${response.data.error}`,
             'please try again',
           ],
         }),
