@@ -31,7 +31,7 @@ const selectFilteredCategories = createSelector(
 const CategouryList = () => {
   const dispatch = useDispatch();
   const categoriesWithAll = useSelector(selectFilteredCategories);
-  const loading = useSelector(state => state.categoury.loading);
+  // const loading = useSelector(state => state.categoury.loading);
   const [selected, setSelected] = useState(0);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const CategouryList = () => {
 
   return (
     <>
-      {loading && <ListLoader/>}
+     
       <View style={styles.container}>
         <FlatList
           data={categoriesWithAll}
