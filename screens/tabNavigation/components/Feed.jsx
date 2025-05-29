@@ -5,13 +5,10 @@ import Card from './Card'
 import FeedLoader from './FeedLoader'
 
 const Feed = () => {
-  const { categourydata, loading } = useSelector((state) => state.categoury)
-  const items = categourydata?.data?.messege || []
+  const { categourydata } = useSelector((state) => state.categoury)
+  const items = categourydata?.messege || []
 
-  if (loading) {
-    return <FeedLoader />
-  }
-
+ 
   return (
     <View style={styles.container}>
       <FlatList
