@@ -48,8 +48,8 @@ export default CardSideBar
 
 const styles = StyleSheet.create({
   sidebar: {
-    width: 60,
-    backgroundColor: '#fff',
+    width: 40,
+
     alignItems: 'center',
     paddingVertical: 24,
     justifyContent: 'center',
