@@ -10,6 +10,7 @@ const Card = ({ item }) => {
 
   return (
     <View style={styles.wrapper}>
+     
       <CardSideBar />
       <TouchableOpacity style={styles.container}>
         {/* Thumbnail */}
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   container: {
-    width: width - 60,
+    width: width - 10,
     backgroundColor: '#fff',
   },
   thumbnail: {
