@@ -9,7 +9,7 @@ import * as api from '../../API/categoury';
 function* CategourySaga(payload) {
   try {
     yield put(actions.setloading(true));
-    const response = yield call(api.getcategourydata, payload.categoury);
+    const response = yield call(api.getcategourydata, payload.categoury,payload.limit,payload.page);
 
     if (response && response.status === 200) {
       if (!response.data || typeof response.data !== 'object') {
@@ -57,6 +57,59 @@ function* CategourySaga(payload) {
     );
   }
 }
+
+  
+function* CategourycountSaga(payload) {
+  try {
+    yield put(actions.setloading(true));
+    const response = yield call(api.getcategourydatacount, payload.categoury,payload.limit,payload.page);
+
+    if (response && response.status === 200) {
+      if (!response.data || typeof response.data !== 'object') {
+        yield put(
+          actions.categourycountfails({
+            error: [
+              'Unexpected error occurred',
+              'Response format is invalid or empty.',
+            ],
+          }),
+        );
+      } else if (response.data.error) {
+        yield put(
+          actions.categourycountfails({
+            error: [
+              response.data.error,
+            
+            ],
+          }),
+        );
+      } else {
+        console.log('Response data in saga:', response.data);
+        yield put(
+          actions.categourycountsuccessful(response.data),
+        );
+      }
+    } else {
+      yield put(
+        actions.categourycountfails({
+          error: [
+            `Unexpected response status: ${response.status}  and  error:${response.data.error}`,
+            'please try again',
+          ],
+        }),
+      );
+    }
+    yield put(actions.setloading(false));
+  } catch (error) {
+    yield put(actions.setloading(false));
+
+    yield put(
+      actions.categourycountfails({
+        error: ['An error occurred', error.message || 'Unknown error'],
+      }),
+    );
+    }}
+
 
 function* CategourynameSaga() {
   try {
@@ -119,7 +172,7 @@ function* CategourynameSaga() {
 export function* watchCategourySaga() {
   yield takeLatest('CATEGOURY_REQUEST', CategourySaga);
   yield takeLatest('CATEGOURY_NAME_REQUEST', CategourynameSaga);
-
+  yield takeLatest('CATEGOURY_COUNT_REQUEST', CategourycountSaga);
 
 }
 

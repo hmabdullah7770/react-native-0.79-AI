@@ -33,15 +33,19 @@ const CategouryList = () => {
   const categoriesWithAll = useSelector(selectFilteredCategories);
   // const loading = useSelector(state => state.categoury.loading);
   const [selected, setSelected] = useState(0);
+ const limit= 2
+ const page= 1
 
   useEffect(() => {
     dispatch(categourynamerequest());
   }, [dispatch]);
 
+ 
+
   useEffect(() => {
     if (categoriesWithAll[selected]) {
       const selectedCategory = categoriesWithAll[selected].categouryname;
-      dispatch(categouryrequest( selectedCategory ));
+      dispatch(categouryrequest( selectedCategory,limit,page ));
     }
   }, [selected, dispatch]);
 

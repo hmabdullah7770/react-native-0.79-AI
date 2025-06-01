@@ -8,20 +8,20 @@ const CardSideBar = () => {
 
   // Define available social links from the response
   const socialIcons = []
+ // Check which social links exist in the response
+  if (categourydata?.messege?.cards?.[0]?.whatsapp) {
+    socialIcons.push({ name: 'logo-whatsapp', link: categourydata.messege.cards[0].whatsapp })
+  }
+  if (categourydata?.messege?.cards?.[0]?.instagram) {
+    socialIcons.push({ name: 'logo-instagram', link: categourydata.messege.cards[0].instagram })
+  }
+  if (categourydata?.messege?.cards?.[0]?.facebook) {
+    socialIcons.push({ name: 'logo-facebook', link: categourydata.messege.cards[0].facebook })
+  }
+  if (categourydata?.messege?.cards?.[0]?.storelink) {
+    socialIcons.push({ name: 'storefront-outline', link: categourydata.messege.cards[0].storelink })
+  }
 
-  // Check which social links exist in the response
-  if (categourydata?.messege?.[0]?.whatsapp) {
-    socialIcons.push({ name: 'logo-whatsapp', link: categourydata.messege[0].whatsapp })
-  }
-  if (categourydata?.messege?.[0]?.instagram) {
-    socialIcons.push({ name: 'logo-instagram', link: categourydata.messege[0].instagram })
-  }
-  if (categourydata?.messege?.[0]?.facebook) {
-    socialIcons.push({ name: 'logo-facebook', link: categourydata.messege[0].facebook })
-  }
-  if (categourydata?.messege?.[0]?.storelink) {
-    socialIcons.push({ name: 'storefront-outline', link: categourydata.messege[0].storelink })
-  }
 
   const handleSocialPress = (link) => {
     // Handle opening the social media link/number
