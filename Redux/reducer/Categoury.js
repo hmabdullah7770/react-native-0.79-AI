@@ -4,7 +4,7 @@ const initialState = {
    
   //  accessToken: null,
    categourydata: null,
-   categourycountdata: null,
+  //  categourycountdata: null,
    error: null,
    categourylist: null,
     loading: false,
@@ -39,23 +39,23 @@ const initialState = {
       }
 
 
-      case 'CATEGOURY_COUNT_SUCCESSFUL':
-    console.log("CATEGOURY_COUNT_SUCCESSFUL:",action.payload)
-      return{
-         ...state,
-        categourycountdata: action.payload,
-        loading: false,
-        error: null
-      }
+    //   case 'CATEGOURY_COUNT_SUCCESSFUL':
+    // console.log("CATEGOURY_COUNT_SUCCESSFUL:",action.payload)
+    //   return{
+    //      ...state,
+    //     categourycountdata: action.payload,
+    //     loading: false,
+    //     error: null
+    //   }
       
 
 
-        case 'CATEGOURY_COUNT_FAILS':
-    console.log("CATEGOURY_COUNT_FAILS:",action.payload)
-      return{
-        ...state,
-        error:action.payload
-      }
+    //     case 'CATEGOURY_COUNT_FAILS':
+    // console.log("CATEGOURY_COUNT_FAILS:",action.payload)
+    //   return{
+    //     ...state,
+    //     error:action.payload
+    //   }
 
 
 

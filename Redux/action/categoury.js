@@ -26,30 +26,30 @@ export const categouryfails = error => ({
 
 //categoury with count  (5th Api call)
 
-export const categourycountrequest = (categoury,limit,page) => {
-  console.log("Inside categourycount request")
-  console.log("categourycount action called with:", categoury);
-  return{
-  type: 'CATEGOURY_COUNT_REQUEST',
-  categoury,
-  limit,
-  page,
-  //  phone ,
+// export const categourycountrequest = (categoury,limit,page) => {
+//   console.log("Inside categourycount request")
+//   console.log("categourycount action called with:", categoury);
+//   return{
+//   type: 'CATEGOURY_COUNT_REQUEST',
+//   categoury,
+//   limit,
+//   page,
+//   //  phone ,
   
-}};
+// }};
 
 
 
 
-export const categourycountsuccessful = data => ({
-  type: 'CATEGOURY_COUNT_SUCCESSFUL',
-  payload: data,
-});
+// export const categourycountsuccessful = data => ({
+//   type: 'CATEGOURY_COUNT_SUCCESSFUL',
+//   payload: data,
+// });
 
-export const categourycountfails = error => ({
-  type: 'CATEGOURY_COUNT_FAILS',
-  payload: error,
-});
+// export const categourycountfails = error => ({
+//   type: 'CATEGOURY_COUNT_FAILS',
+//   payload: error,
+// });
 
 
 
