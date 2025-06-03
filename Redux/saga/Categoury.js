@@ -6,68 +6,15 @@ import * as api from '../../API/categoury';
 // import EncryptedStorage from 'react-native-encrypted-storage';
 
 
-// function* CategourySaga(payload) {
-//   try {
-//     yield put(actions.setloading(true));
-//     const response = yield call(api.getcategourydata, payload.categoury,payload.limit,payload.page);
-
-//     if (response && response.status === 200) {
-//       if (!response.data || typeof response.data !== 'object') {
-//         yield put(
-//           actions.categouryfails({
-//             error: [
-//               'Unexpected error occurred',
-//               'Response format is invalid or empty.',
-//             ],
-//           }),
-//         );
-//       } else if (response.data.error) {
-//         yield put(
-//           actions.categouryfails({
-//             error: [
-//               response.data.error,
-            
-//             ],
-//           }),
-//         );
-//       } else {
-//         console.log('Response data in saga:', response.data);
-//         yield put(
-//           actions.categourysuccessful(response.data),
-//         );
-//       }
-//     } else {
-//       yield put(
-//         actions.categouryfails({
-//           error: [
-//             `Unexpected response status: ${response.status}  and  error:${response.data.error}`,
-//             'please try again',
-//           ],
-//         }),
-//       );
-//     }
-//     yield put(actions.setloading(false));
-//   } catch (error) {
-//     yield put(actions.setloading(false));
-
-//     yield put(
-//       actions.categouryfails({
-//         error: ['An error occurred', error.message || 'Unknown error'],
-//       }),
-//     );
-//   }
-// }
-
-  
-function* CategourycountSaga(payload) {
+function* CategourySaga(payload) {
   try {
     yield put(actions.setloading(true));
-    const response = yield call(api.getcategourydatacount, payload.categoury,payload.limit,payload.page);
+    const response = yield call(api.getcategourydata, payload.categoury,payload.limit,payload.page);
 
     if (response && response.status === 200) {
       if (!response.data || typeof response.data !== 'object') {
         yield put(
-          actions.categourycountfails({
+          actions.categouryfails({
             error: [
               'Unexpected error occurred',
               'Response format is invalid or empty.',
@@ -76,7 +23,7 @@ function* CategourycountSaga(payload) {
         );
       } else if (response.data.error) {
         yield put(
-          actions.categourycountfails({
+          actions.categouryfails({
             error: [
               response.data.error,
             
@@ -86,12 +33,12 @@ function* CategourycountSaga(payload) {
       } else {
         console.log('Response data in saga:', response.data);
         yield put(
-          actions.categourycountsuccessful(response.data),
+          actions.categourysuccessful(response.data),
         );
       }
     } else {
       yield put(
-        actions.categourycountfails({
+        actions.categouryfails({
           error: [
             `Unexpected response status: ${response.status}  and  error:${response.data.error}`,
             'please try again',
@@ -104,11 +51,64 @@ function* CategourycountSaga(payload) {
     yield put(actions.setloading(false));
 
     yield put(
-      actions.categourycountfails({
+      actions.categouryfails({
         error: ['An error occurred', error.message || 'Unknown error'],
       }),
     );
-    }}
+  }
+}
+
+  
+// function* CategourycountSaga(payload) {
+//   try {
+//     yield put(actions.setloading(true));
+//     const response = yield call(api.getcategourydatacount, payload.categoury,payload.limit,payload.page);
+
+//     if (response && response.status === 200) {
+//       if (!response.data || typeof response.data !== 'object') {
+//         yield put(
+//           actions.categourycountfails({
+//             error: [
+//               'Unexpected error occurred',
+//               'Response format is invalid or empty.',
+//             ],
+//           }),
+//         );
+//       } else if (response.data.error) {
+//         yield put(
+//           actions.categourycountfails({
+//             error: [
+//               response.data.error,
+            
+//             ],
+//           }),
+//         );
+//       } else {
+//         console.log('Response data in saga:', response.data);
+//         yield put(
+//           actions.categourycountsuccessful(response.data),
+//         );
+//       }
+//     } else {
+//       yield put(
+//         actions.categourycountfails({
+//           error: [
+//             `Unexpected response status: ${response.status}  and  error:${response.data.error}`,
+//             'please try again',
+//           ],
+//         }),
+//       );
+//     }
+//     yield put(actions.setloading(false));
+//   } catch (error) {
+//     yield put(actions.setloading(false));
+
+//     yield put(
+//       actions.categourycountfails({
+//         error: ['An error occurred', error.message || 'Unknown error'],
+//       }),
+//     );
+//     }}
 
 
 function* CategourynameSaga() {
