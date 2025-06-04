@@ -106,9 +106,11 @@ const Feed = () => {
         viewabilityConfig={viewabilityConfig}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews={true}
-        maxToRenderPerBatch={5}
+        maxToRenderPerBatch={LIMIT}
         windowSize={10}
-        initialNumToRender={5}
+        initialNumToRender={LIMIT}
+
+       
         updateCellsBatchingPeriod={50}
         contentContainerStyle={styles.contentContainer}
       />
