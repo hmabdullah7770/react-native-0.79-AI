@@ -1,13 +1,12 @@
-// screens/tabNavigation/components/CategouryList.jsx
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { categourynamerequest } from '../../../Redux/action/categoury';
-import Feed from './Feed';
+import { categourynamerequest, categouryrequest } from '../../../Redux/action/categoury';
 
-// Create memoized selectors
+const LIMIT = 5;
+
+// Memoized selectors
 const selectCategouryState = state => state.categoury;
 
 const selectCategouryList = createSelector(
@@ -33,24 +32,51 @@ const CategouryList = () => {
   const dispatch = useDispatch();
   const categoriesWithAll = useSelector(selectFilteredCategories);
   const [selected, setSelected] = useState(0);
+  
+  // Add ref to track if initial load has been done
+  const initialLoadDone = useRef(false);
 
+  // Load category names on mount (only once)
   useEffect(() => {
     dispatch(categourynamerequest());
-  }, [dispatch]);
+  }, []); // ✅ Empty dependency array - runs only once
 
-  const renderItem = ({ item, index }) => (
+  // Handle category selection
+  const handleCategorySelect = useCallback((index) => {
+    if (index === selected) return;
+    
+    setSelected(index);
+    
+    if (categoriesWithAll[index]) {
+      const selectedCategory = categoriesWithAll[index].categouryname;
+      // Load first page of new category
+      dispatch(categouryrequest(selectedCategory, LIMIT, 1));
+    }
+  }, [selected, categoriesWithAll, dispatch]);
+
+  // Initial load for first category (only once when categories are loaded)
+  useEffect(() => {
+    if (categoriesWithAll.length > 0 && !initialLoadDone.current) {
+      const firstCategory = categoriesWithAll[0].categouryname;
+      dispatch(categouryrequest(firstCategory, LIMIT, 1));
+      initialLoadDone.current = true; // ✅ Mark as done
+    }
+  }, [categoriesWithAll.length, dispatch]); // ✅ Only depend on length, not the entire array
+
+  const renderItem = useCallback(({ item, index }) => (
     <TouchableOpacity
       style={[
         styles.item,
         selected === index && styles.selectedItem
       ]}
-      onPress={() => setSelected(index)}
+      onPress={() => handleCategorySelect(index)}
+      activeOpacity={0.7}
     >
       <Text style={[styles.text, selected === index && styles.selectedText]}>
         {item.categouryname.charAt(0).toUpperCase() + item.categouryname.slice(1)}
       </Text>
     </TouchableOpacity>
-  );
+  ), [selected, handleCategorySelect]);
 
   return (
     <View style={styles.container}>
@@ -62,16 +88,12 @@ const CategouryList = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.list}
       />
-      <Feed selectedCategory={categoriesWithAll[selected]?.categouryname} />
     </View>
   );
 };
 
-export default CategouryList;
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingVertical: 10,
   },
   list: {
@@ -90,9 +112,6 @@ const styles = StyleSheet.create({
   selectedItem: {
     backgroundColor: '#1FFFA5',
   },
-  icon: {
-    marginRight: 8,
-  },
   text: {
     color: '#000',
     fontWeight: 'bold',
@@ -103,11 +122,7 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-
-
-
+export default CategouryList;
 
 // import React, { useEffect, useState } from 'react';
 // import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';

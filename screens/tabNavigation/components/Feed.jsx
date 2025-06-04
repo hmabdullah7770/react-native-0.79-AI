@@ -1,82 +1,132 @@
-// screens/tabNavigation/components/Feed.jsx
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
+import { useSelector, useDispatch } from 'react-redux';
+import { categouryrequest } from '../../../Redux/action/categoury';
+import Card from './Card';
 
-import { StyleSheet, View } from 'react-native'
-import React, { useEffect, useState, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Card from './Card'
-import FeedLoader from './FeedLoader'
-import { FlashList } from '@shopify/flash-list'
-import { categouryrequest } from '../../../Redux/action/categoury'
+const LIMIT = 5;
+const PRELOAD_THRESHOLD = 2; // Load next page when user reaches 3rd item (limit - 2)
 
-const LIMIT = 5
+const Feed = () => {
+  const dispatch = useDispatch();
+  const { categourydata } = useSelector((state) => state.categoury);
+  
+  // State management
+  const [allItems, setAllItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isLoading, setIsLoading] = useState(false);
 
-const Feed = ({ selectedCategory }) => {
-  const dispatch = useDispatch()
-  const { categourydata } = useSelector((state) => state.categoury)
-  const [page, setPage] = useState(1)
-  const [items, setItems] = useState([])
-  const [hasNextPage, setHasNextPage] = useState(true)
-  const [loadingMore, setLoadingMore] = useState(false)
+  // Extract data from API response
+  const apiItems = categourydata?.messege?.cards || [];
+  const pagination = categourydata?.messege?.pagination;
 
-  // Reset state when category changes
+  // Handle initial data and pagination updates
   useEffect(() => {
-    setPage(1)
-    setItems([])
-    setHasNextPage(true)
-    dispatch(categouryrequest(selectedCategory, LIMIT, 1))
-  }, [selectedCategory, dispatch])
+    if (apiItems.length > 0 && pagination) {
+      if (pagination.currentPage === 1) {
+        // First page - replace all items
+        setAllItems(apiItems);
+      } else {
+        // Subsequent pages - append items
+        setAllItems(prev => {
+          const existingIds = new Set(prev.map(item => item._id));
+          const newItems = apiItems.filter(item => !existingIds.has(item._id));
+          return [...prev, ...newItems];
+        });
+      }
+      
+      setCurrentPage(pagination.currentPage);
+      setHasNextPage(pagination.hasNextPage);
+      setIsLoading(false);
+    }
+  }, [apiItems, pagination]);
 
-  // Update items when new data arrives
+  // Reset data when category changes (detect from categourydata change)
   useEffect(() => {
-    const newCards = categourydata?.messege?.cards || []
-    const pagination = categourydata?.messege?.pagination
-    if (page === 1) {
-      setItems(newCards)
-    } else if (newCards.length > 0) {
-      setItems(prev => [...prev, ...newCards])
+    if (categourydata && pagination && pagination.currentPage === 1) {
+      // This means a new category was selected
+      setAllItems(apiItems);
+      setCurrentPage(1);
+      setHasNextPage(pagination.hasNextPage);
+      setIsLoading(false);
     }
-    setHasNextPage(newCards.length > 0 && pagination?.hasNextPage)
-    setLoadingMore(false)
-  }, [categourydata])
+  }, [categourydata]);
 
-  // Load more when user scrolls near the end
-  const handleEndReached = useCallback(() => {
-    if (!loadingMore && hasNextPage) {
-      setLoadingMore(true)
-      const nextPage = page + 1
-      setPage(nextPage)
-      dispatch(categouryrequest(selectedCategory, LIMIT, nextPage))
+  // Load more data function
+  const loadMoreData = useCallback(() => {
+    if (!hasNextPage || isLoading) return;
+    
+    setIsLoading(true);
+    const nextPage = currentPage + 1;
+    
+    // Get current category from the last API response or default to 'All'
+    const category = selectedCategory;
+    dispatch(categouryrequest(category, LIMIT, nextPage));
+  }, [hasNextPage, isLoading, currentPage, selectedCategory, dispatch]);
+
+  // Handle scroll-based preloading
+  const onViewableItemsChanged = useCallback(({ viewableItems }) => {
+    if (!hasNextPage || isLoading || viewableItems.length === 0) return;
+    
+    const lastVisibleIndex = Math.max(...viewableItems.map(item => item.index || 0));
+    const totalItems = allItems.length;
+    
+    // Trigger load when user reaches the preload threshold (3rd item from end)
+    if (totalItems > 0 && lastVisibleIndex >= totalItems - PRELOAD_THRESHOLD) {
+      loadMoreData();
     }
-  }, [loadingMore, hasNextPage, page, dispatch, selectedCategory])
+  }, [hasNextPage, isLoading, allItems.length, loadMoreData]);
+
+  // Viewability config for preloading
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 50,
+    minimumViewTime: 100,
+  };
+
+  // Render item function
+  const renderItem = useCallback(({ item, index }) => (
+    <Card item={item} index={index} />
+  ), []);
+
+  // Get item type for FlashList optimization
+  const getItemType = useCallback(() => 'card', []);
 
   return (
     <View style={styles.container}>
       <FlashList
-        data={items}
-        renderItem={({ item }) => <Card item={item} />}
+        data={allItems}
+        renderItem={renderItem}
         keyExtractor={item => item._id}
-        estimatedItemSize={250}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.6}
+        estimatedItemSize={280}
+        getItemType={getItemType}
+        onViewableItemsChanged={onViewableItemsChanged}
+        viewabilityConfig={viewabilityConfig}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={loadingMore ? <FeedLoader /> : null}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={5}
+        windowSize={10}
+        initialNumToRender={5}
+        updateCellsBatchingPeriod={50}
+        contentContainerStyle={styles.contentContainer}
       />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
-  }
-})
+    backgroundColor: '#fff',
+  },
+  contentContainer: {
+    paddingVertical: 5,
+  },
+});
 
-export default Feed
-
-
-
-
+export default Feed;
 
 // import { StyleSheet, FlatList, View } from 'react-native'
 // import React from 'react'
