@@ -147,12 +147,13 @@ export const signupfail = error => ({
 //   password,
 // });
 
-export const loginrequest = (username, password) => {
+export const loginrequest = (username, password,email) => {
   console.log("username is", username, "password is :", password);
   return {
     type: 'LOGIN_REQUEST',
     username,
     password,
+    email
   };
 };
 

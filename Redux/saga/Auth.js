@@ -313,7 +313,7 @@ function* LoginSaga(payload) {
   try {
     console.log('LoginSaga started with payload:', payload);
     yield put(actions.setloading(true));
-    const response = yield call(api.login, payload.username, payload.password); //,payload.username
+    const response = yield call(api.login, payload.username, payload.password,payload.email); //,payload.username
 
     console.log('Making API call with credentials...');
     if (response.status === 200) {

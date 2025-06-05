@@ -19,7 +19,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { tokencheck } from './Redux/action/auth';
-import { tokencheckrequest } from './Redux/action/auth';
+// import { tokencheckrequest } from './Redux/action/auth';
 
 
 export const navigationRef = createNavigationContainerRef();
@@ -71,7 +71,7 @@ const App = () => {
           console.log('Token found in Keychain. Dispatching tokencheck.');
           // Dispatch the tokencheck action to validate the token
           // dispatch(tokencheck());
-          dispatch(tokencheckrequest());
+          dispatch(tokencheck());
         } else {
           console.log('No token found in Keychain. Skipping tokencheck.');
           // No token found, isAuthenticated should remain false,

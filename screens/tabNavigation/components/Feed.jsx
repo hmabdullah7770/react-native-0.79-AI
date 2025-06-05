@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback,useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,7 +11,8 @@ const PRELOAD_THRESHOLD = 2; // Load next page when user reaches 3rd item (limit
 const Feed = () => {
   const dispatch = useDispatch();
   const { categourydata } = useSelector((state) => state.categoury);
-  
+  const flashListRef = useRef(null);
+
   // State management
   const [allItems, setAllItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,6 +53,8 @@ const Feed = () => {
       setCurrentPage(1);
       setHasNextPage(pagination.hasNextPage);
       setIsLoading(false);
+      // Scroll to top when category changes
+      flashListRef.current?.scrollToOffset({ offset: 0, animated: true });
     }
   }, [categourydata]);
 
@@ -97,6 +100,8 @@ const Feed = () => {
   return (
     <View style={styles.container}>
       <FlashList
+      
+      ref={flashListRef}
         data={allItems}
         renderItem={renderItem}
         keyExtractor={item => item._id}
@@ -106,9 +111,9 @@ const Feed = () => {
         viewabilityConfig={viewabilityConfig}
         showsVerticalScrollIndicator={false}
         removeClippedSubviews={true}
-        maxToRenderPerBatch={5}
+        maxToRenderPerBatch={LIMIT}
         windowSize={10}
-        initialNumToRender={5}
+        initialNumToRender={LIMIT}
         updateCellsBatchingPeriod={50}
         contentContainerStyle={styles.contentContainer}
       />

@@ -52,10 +52,10 @@ export const signup =(username, password, email, otp, avatar, storelink, whatsap
 }
 
 
-export const login = (username, password) =>{
+export const login = (username, password,email) =>{
   console.log('Making login request to:', '/users/login');
   return api.post('/users/login', {
-    // email,
+     email,
     username,
     password,
     // azureUserName: 'ayesha.zahid'

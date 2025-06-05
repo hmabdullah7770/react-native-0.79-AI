@@ -11,9 +11,31 @@ import * as yup from 'yup';
 
 
 
+
+
+// const schema = yup.object().shape({
+//   username: yup.string().required('Name is required'),
 const schema = yup.object().shape({
-  username: yup.string().required('Name is required'),
-  password: yup
+  username: yup
+    .string()
+    .required('Username or email is required')
+    .test('is-valid-input', 'Please enter a valid username or email', function(value) {
+      if (!value) return false;
+      
+      // Check if input is an email
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      
+      if (isEmail) {
+        // If it's an email, validate email format
+        return yup.string().email('Please enter a valid email').isValidSync(value);
+      } else {
+        // If it's a username, validate username format
+        // Username should be at least 3 characters and can contain letters, numbers, and underscores
+        return /^[a-zA-Z0-9_ ]{3,}$/.test(value);
+      }
+    }),
+
+password: yup
     .string()
     .required('Password is required')
   // .min(8, 'Password must be at least 8 characters long')
@@ -34,8 +56,20 @@ const SigninScreen = ({ navigation }) => {
    
          try {
           const { username, password } = values;
-          console.log("Submitting form with:", { username, password });
-          await dispatch(loginrequest(username, password));
+
+          const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username);
+        
+          // If it's an email, pass it as email parameter, otherwise as username
+          await dispatch(loginrequest(
+            isEmail ? '' : username, // username
+            password,
+            isEmail ? username : '' // email
+          ));
+           
+
+
+          // console.log("Submitting form with:", { username, password });
+          // await dispatch(loginrequest(username, password));
         } catch (error) {
           console.error("Form submission error:", error);
         } finally {
