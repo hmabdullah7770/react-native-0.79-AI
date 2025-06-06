@@ -24,36 +24,6 @@ export const categouryfails = error => ({
   payload: error,
 });
 
-//categoury with count  (5th Api call)
-
-// export const categourycountrequest = (categoury,limit,page) => {
-//   console.log("Inside categourycount request")
-//   console.log("categourycount action called with:", categoury);
-//   return{
-//   type: 'CATEGOURY_COUNT_REQUEST',
-//   categoury,
-//   limit,
-//   page,
-//   //  phone ,
-  
-// }};
-
-
-
-
-// export const categourycountsuccessful = data => ({
-//   type: 'CATEGOURY_COUNT_SUCCESSFUL',
-//   payload: data,
-// });
-
-// export const categourycountfails = error => ({
-//   type: 'CATEGOURY_COUNT_FAILS',
-//   payload: error,
-// });
-
-
-
-
 
 
 
@@ -79,4 +49,71 @@ export const categourynamerequestfails = error => ({
 export const setloading = loading => ({
   type: 'LOADING',
   payload: loading,
+});
+
+
+
+//caching
+
+ // Background category request (non-blocking)
+export const categouryBackgroundRequest = (categoury, limit, page) => {
+  console.log("Background categoury request for:", categoury);
+  return {
+    type: 'CATEGOURY_BACKGROUND_REQUEST',
+    categoury,
+    limit,
+    page,
+    isBackground: true,
+  };
+};
+
+// Cache hit action (when data is served from cache)
+export const categouryCacheHit = (data, categoury) => ({
+  type: 'CATEGOURY_CACHE_HIT',
+  payload: data,
+  categoury,
+});
+
+
+// Batch background loading for multiple categories
+export const categouryBatchBackgroundRequest = (categories, currentCategory, limit = 5) => ({
+  type: 'CATEGOURY_BATCH_BACKGROUND_REQUEST',
+  categories,
+  currentCategory,
+  limit,
+});
+
+// Refresh category (clear cache and reload)
+export const categouryRefreshRequest = (categoury, limit, page) => ({
+  type: 'CATEGOURY_REFRESH_REQUEST',
+  categoury,
+  limit,
+  page,
+});
+
+// Clear category cache
+export const clearCategouryCache = (categoury) => ({
+  type: 'CLEAR_CATEGOURY_CACHE',
+  categoury,
+});
+
+// Clear all cache
+export const clearAllCategouryCache = () => ({
+  type: 'CLEAR_ALL_CATEGOURY_CACHE',
+});
+
+
+// Background loading status
+export const setBackgroundLoading = (isLoading, categoury) => ({
+  type: 'BACKGROUND_LOADING',
+  payload: isLoading,
+  categoury,
+});
+
+// Update background cache
+export const updateBackgroundCache = (categoury, data, page) => ({
+  type: 'UPDATE_BACKGROUND_CACHE',
+  categoury,
+  payload: data,
+  page,
 });
