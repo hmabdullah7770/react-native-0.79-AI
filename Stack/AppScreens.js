@@ -30,7 +30,8 @@ console.log("user token: ",user?.data?.data?.accessToken);
           // Store the refresh token using a generic password
           await Keychain.setGenericPassword('refreshToken', user?.data?.data?.refreshToken,{service:'refreshToken'});
           
-          await Keychain.setGenericPassword('userId', user?.data?.data?._id,{service:'userId'});
+          console.log("userId in AppScreens: ", user?.data?.data?.user?._id);
+          await Keychain.setGenericPassword('userId', user?.data?.data?.user?._id,{service:'userId'});
          
           console.log('Tokens stored successfully!');
           // Mark tokens as stored to prevent re-storing on subsequent state changes
