@@ -30,8 +30,19 @@ const userId = async () => {
 }
 
 const Banner = () => {
-  userId()
 
+  // userId()
+    const [storedUserId, setStoredUserId] = useState(null)
+
+  // Add useEffect to get userId when component mounts
+  useEffect(() => {
+    const loadUserId = async () => {
+      const id = await userId()
+      setStoredUserId(id)
+    }
+    loadUserId()
+  }, [])
+  const [appUserId, setAppUserId] = useState(null)
   const dispatch = useDispatch()
   const flatListRef = useRef(null)
   const scrollX = useRef(new Animated.Value(0)).current
@@ -60,6 +71,7 @@ const Banner = () => {
   }, [currentIndex, getbannerData])
 
   const renderBannerItem = ({ item, index }) => (
+    
     <Animated.View 
       style={[
         styles.bannerItem,
@@ -84,6 +96,21 @@ const Banner = () => {
         resizeMode="cover"
       />
       
+ {/* Add conditional delete button */}
+      {storedUserId === item.ownerDetails._id && (
+        <TouchableOpacity 
+          style={styles.deleteButton}
+          onPress={() => {
+            // Add your delete logic here
+            console.log('Delete banner:', item._id)
+          }}
+        >
+          <Icon name="delete" size={24} color="#fff" />
+        </TouchableOpacity>
+      )}
+
+
+
       <View style={styles.ownerContainer}>
         <Image
           source={{ uri: item.ownerDetails.avatar }}
@@ -99,9 +126,10 @@ const Banner = () => {
       <View style={styles.timeContainer}>
         <Text style={styles.timeText}>{item.timeRemaining} left</Text>
       </View>
+       {/* {setAppUserId(item.ownerDetails._id)} */}
     </Animated.View>
   )
-
+   
   const renderDots = () => (
     <View style={styles.dotsContainer}>
       {getbannerData.map((_, index) => {
@@ -127,6 +155,22 @@ const Banner = () => {
       })}
     </View>
   )
+
+
+
+// Add condition to check for empty/null data
+  if (!getbannerData || getbannerData.length === 0) {
+    return (
+      <View style={[styles.mainContainer, styles.emptyContainer]}>
+        <TouchableOpacity
+          style={styles.addBannerButton}
+          onPress={() => dispatch(addbannerrequest('bannerImage'))}
+        >
+          <Text style={styles.addBannerText}>Add Banner</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -168,6 +212,16 @@ const Banner = () => {
 }
 
 const styles = StyleSheet.create({
+  
+    
+  emptyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    padding: 20,
+  },
+  
+  
   mainContainer: {
     height: 280, 
   },
