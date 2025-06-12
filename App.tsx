@@ -13,6 +13,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {Provider as ReduxProvider, useSelector} from 'react-redux';
 import store from './Redux/store/store';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { navigationRef } from './utils/rootNavigation';
 
 import * as Keychain from 'react-native-keychain';
 import { useEffect } from 'react';
@@ -22,7 +23,9 @@ import { tokencheck } from './Redux/action/auth';
 // import { tokencheckrequest } from './Redux/action/auth';
 
 
-export const navigationRef = createNavigationContainerRef();
+// export const navigationRef = createNavigationContainerRef();
+
+
 // Define a type for your Redux state (replace with your actual RootState)
 interface RootState {
   auth: {

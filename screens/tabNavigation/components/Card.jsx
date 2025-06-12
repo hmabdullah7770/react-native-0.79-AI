@@ -2,8 +2,25 @@ import React, { memo } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { format } from 'date-fns';
 import CardSideBar from './CardSideBar';
+import { useSelector, useDispatch } from 'react-redux';
+import { getprofilerequest } from '../../../Redux/action/profile';
+import { useNavigation } from '@react-navigation/native'; 
+
+
 
 const Card = memo(({ item, index }) => {
+
+  
+  const dispatch = useDispatch();
+
+  const navigation = useNavigation(); 
+// Add navigation prop validation at the start of component
+ 
+
+ 
+
+
+
   const formatDate = (dateString) => {
     try {
       return format(new Date(dateString), 'MMM dd, yyyy');
@@ -19,7 +36,7 @@ const Card = memo(({ item, index }) => {
 
   return (
     <View style={styles.wrapper}>
-      <CardSideBar />
+      <CardSideBar cardData={item}/>
       <TouchableOpacity 
         style={styles.container}
         onPress={handlePress}
@@ -37,11 +54,18 @@ const Card = memo(({ item, index }) => {
         <View style={styles.bottomContainer}>
           {/* Profile Section */}
           <View style={styles.profileSection}>
-            <Image 
+            <TouchableOpacity
+           onPress={
+          // handleNavigation
+         ()=> dispatch(getprofilerequest(item.owner.username))
+            // ()=> getprofilerequest(getusername)
+          }
+           >
+           <Image  
               source={{ uri: item.owner.avatar }}
               style={styles.avatar}
               defaultSource={{ uri: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' }}
-            />
+             /></TouchableOpacity> 
             <View style={styles.textSection}>
               <Text style={styles.title} numberOfLines={2}>
                 {item.title}

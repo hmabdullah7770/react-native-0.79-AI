@@ -454,6 +454,7 @@ function* LogoutSaga() {
      // Should be - CORRECT
 yield call([Keychain, 'resetGenericPassword'], { service: 'accessToken' });
 yield call([Keychain, 'resetGenericPassword'], { service: 'refreshToken' });
+yield call([Keychain, 'resetGenericPassword'], { service: 'userId' });
       yield put(
         actions.logoutsuccessful([
           response.data.message,

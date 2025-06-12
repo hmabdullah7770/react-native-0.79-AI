@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import * as Keychain from 'react-native-keychain';
 import TestingScreen from '../screens/TestingScreen'; // Assuming this is the initial screen
 import Tabnavigation from '../screens/tabNavigation/Tabnavigation'
+import OthersProfile  from '../screens/tabNavigation/OthersProfile'
 
 const AppScreens = () => {
   const App = createStackNavigator();
@@ -28,6 +29,9 @@ console.log("user token: ",user?.data?.data?.accessToken);
           await Keychain.setGenericPassword('accessToken', user?.data?.data?.accessToken,{service:'accessToken'});
           // Store the refresh token using a generic password
           await Keychain.setGenericPassword('refreshToken', user?.data?.data?.refreshToken,{service:'refreshToken'});
+          
+          await Keychain.setGenericPassword('userId', user?.data?.data?._id,{service:'userId'});
+         
           console.log('Tokens stored successfully!');
           // Mark tokens as stored to prevent re-storing on subsequent state changes
           setTokensStored(true);
@@ -57,6 +61,7 @@ console.log("user token: ",user?.data?.data?.accessToken);
         {/* Define your screens */}
         <App.Screen name="Tabnavigation" component={Tabnavigation} headerShown={false} />
         <App.Screen name="TestingScreen" component={TestingScreen} />
+        <App.Screen name="OthersProfile" component={OthersProfile} headerShown={false} options={{ headerShown: false }} headerMode="none"/>
         {/* Add other screens here, e.g.: */}
         {/* <App.Screen name="Home" component={HomeScreen} /> */}
         {/* <App.Screen name="Dispatch" component={DispatchScreen} /> */}

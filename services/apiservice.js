@@ -49,6 +49,7 @@ const setTokens = async (accessToken, refreshToken) => {
 const removeTokens = async () => {
   await Keychain.resetGenericPassword({ service: 'accessToken' });
   await Keychain.resetGenericPassword({ service: 'refreshToken' });
+  await Keychain.resetGenericPassword({ service: 'userId' });
 };
 
 // Attach access token to every request
@@ -92,7 +93,8 @@ api.interceptors.response.use(
           }
         );
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } = refreshResponse.data.data;
-
+    console.log("new access token is",  refreshResponse.data.data )
+       
         // Remove old tokens and set new ones
         await setTokens(newAccessToken, newRefreshToken);
 

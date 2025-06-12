@@ -1,7 +1,7 @@
 // utils/AppLifecycleManager.js
 import { AppState } from 'react-native';
 import { backgroundCacheManager } from './BackgroundCacheManager';
-import store from '../Redux/store'; // Adjust path as needed
+import store from '../Redux/store/store'; // Adjust path as needed
 
 class AppLifecycleManager {
   constructor() {

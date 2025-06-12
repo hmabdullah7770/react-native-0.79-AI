@@ -1,21 +1,18 @@
 import { StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import CategouryList from './components/CategouryList'
 import Feed from './components/Feed'
+import Banner from './components/Banner'
 
 // Import lifecycle managers
-import { appLifecycleManager } from '../utils/AppLifecycleManager';
-import { backgroundCacheManager } from '../utils/BackgroundCacheManager';
-
-
-
-
+import { appLifecycleManager } from '../../utils/AppLifecycleManager';
+import { backgroundCacheManager } from '../../utils/BackgroundCacheManager';
+// Import store - FIXED MISSING IMPORT
+import store from '../../Redux/store/store'; // Adjust path according to your structure
 
 const HomeScreen = () => {
-
-
-// Initialize lifecycle managers when AppScreens mounts (user is authenticated)
-  React.useEffect(() => {
+  // Initialize lifecycle managers when HomeScreen mounts (user is authenticated)
+  useEffect(() => {
     // Initialize app lifecycle manager
     appLifecycleManager.init();
     
@@ -31,19 +28,21 @@ const HomeScreen = () => {
       });
     });
 
-    console.log('Lifecycle managers initialized in AppScreens');
+    console.log('Lifecycle managers initialized in HomeScreen');
 
     // Cleanup when component unmounts (user logs out)
     return () => {
-      console.log('Cleaning up lifecycle managers in AppScreens');
+      console.log('Cleaning up lifecycle managers in HomeScreen');
       appLifecycleManager.destroy();
       backgroundCacheManager.clearAllCache();
     };
   }, []); // Empty dependency array
 
-
   return (
     <View style={styles.container}>
+      <View>
+        <Banner/>
+      </View>
       <View style={styles.categoryContainer}>
         <CategouryList/>
       </View>

@@ -1,27 +1,29 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
-import { useSelector } from 'react-redux'
 
-const CardSideBar = () => {
-  const { categourydata } = useSelector((state) => state.categoury)
-
-  // Define available social links from the response
+const CardSideBar = ({ cardData }) => {
+  // Define available social links from the specific card
   const socialIcons = []
- // Check which social links exist in the response
-  if (categourydata?.messege?.cards?.[0]?.whatsapp) {
-    socialIcons.push({ name: 'logo-whatsapp', link: categourydata.messege.cards[0].whatsapp })
+
+  // Check which social links exist in the card data
+  if (cardData?.whatsapp) {
+    socialIcons.push({ name: 'logo-whatsapp', link: cardData.whatsapp })
   }
-  if (categourydata?.messege?.cards?.[0]?.instagram) {
-    socialIcons.push({ name: 'logo-instagram', link: categourydata.messege.cards[0].instagram })
+  if (cardData?.instagram) {
+    socialIcons.push({ name: 'logo-instagram', link: cardData.instagram })
   }
-  if (categourydata?.messege?.cards?.[0]?.facebook) {
-    socialIcons.push({ name: 'logo-facebook', link: categourydata.messege.cards[0].facebook })
+  if (cardData?.facebook) {
+    socialIcons.push({ name: 'logo-facebook', link: cardData.facebook })
   }
-  if (categourydata?.messege?.cards?.[0]?.storelink) {
-    socialIcons.push({ name: 'storefront-outline', link: categourydata.messege.cards[0].storelink })
+  if (cardData?.storelink) {
+    socialIcons.push({ name: 'storefront-outline', link: cardData.storelink })
   }
 
+  // Don't render sidebar if no social links
+  if (socialIcons.length === 0) {
+    return null;
+  }
 
   const handleSocialPress = (link) => {
     // Handle opening the social media link/number
@@ -49,22 +51,21 @@ export default CardSideBar
 const styles = StyleSheet.create({
   sidebar: {
     width: 40,
-  height: 200, // Match the image height
-
+    height: 'auto', // Changed to auto to adapt to number of icons
+    minHeight: 50, // Add minimum height
+    maxHeight: 200, // Keep maximum height
     alignItems: 'center',
     paddingVertical: 14,
     justifyContent: 'center',
-     borderColor: 'rgb(2, 222, 134)',
-     borderWidth: 1,
-   
+    borderColor: 'rgb(2, 222, 134)',
+    borderWidth: 1,
     backgroundColor: '#ffffff',
- 
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
   iconButton: {
-     marginVertical: 8, 
+    marginVertical: 8,
   },
 })
