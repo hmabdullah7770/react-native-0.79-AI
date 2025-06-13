@@ -42,7 +42,7 @@ const Banner = () => {
     }
     loadUserId()
   }, [])
-  const [appUserId, setAppUserId] = useState(null)
+  
   const dispatch = useDispatch()
   const flatListRef = useRef(null)
   const scrollX = useRef(new Animated.Value(0)).current
@@ -161,7 +161,7 @@ const Banner = () => {
 // Add condition to check for empty/null data
   if (!getbannerData || getbannerData.length === 0) {
     return (
-      <View style={[styles.mainContainer, styles.emptyContainer]}>
+      <View style={[styles.emptyContainer]}>
         <TouchableOpacity
           style={styles.addBannerButton}
           onPress={() => dispatch(addbannerrequest('bannerImage'))}
@@ -229,6 +229,15 @@ const styles = StyleSheet.create({
     height: 227,
     position: 'relative',
   },
+
+  // mainContainer: {
+  //   paddingBottom: 10, // Instead of fixed height
+  // },
+  // bannerContainer: {
+  //   aspectRatio: 16/9, // Use aspect ratio instead of fixed height
+  //   position: 'relative',
+  // },
+  
   buttonContainer: {
     paddingHorizontal: 20,
     paddingTop: 1,

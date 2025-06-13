@@ -129,6 +129,14 @@ export const setSelectedCategory = (categoryName, categoryIndex) => {
   };
 };
 
+
+
+
+
+
+
+
+
 // //categoury
 // export const categouryrequest = (categoury,limit,page) => {
 //   console.log("Inside categoury request")
