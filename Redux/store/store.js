@@ -7,6 +7,7 @@ import authrootSaga from '../saga/Auth';
 import categouryrootSaga from '../saga/Categoury';
 import profilerootSaga from '../saga/Profile';
 import bannerootSaga from '../saga/Banner';
+import followrootSaga from '../saga/Followlist';
 import createSagaMiddleware from 'redux-saga';
 
 
@@ -40,6 +41,7 @@ sagaMiddleware.run(authrootSaga);
 sagaMiddleware.run(profilerootSaga);
 sagaMiddleware.run(categouryrootSaga);
 sagaMiddleware.run(bannerootSaga);
+sagaMiddleware.run(followrootSaga);
 
 
 // Add this line
