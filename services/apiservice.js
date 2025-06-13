@@ -101,6 +101,8 @@ api.interceptors.response.use(
         // Update header and retry original request
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return api(originalRequest);
+
+        
       } catch (refreshError) {
         // On refresh failure, remove tokens
       
@@ -110,6 +112,12 @@ api.interceptors.response.use(
         console.error("Refresh token error:", refreshError);
         return Promise.reject(refreshError);
       }
+    }
+    else if (response?.data?.success === false) {
+      // Handle the 500 error case with jwt expired message
+      await getStore().dispatch(logoutrequest());
+      await removeTokens();
+      return Promise.reject(error);
     }
     return Promise.reject(error);
   }
