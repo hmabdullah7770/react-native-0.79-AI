@@ -4,7 +4,7 @@ import states from './states'
 import categoury from './Categoury'
 import profile from './Profile';
 import banner from './Banner';
-import followlist from './Followlist';
+import followlist from './Followerlist';
 
 const rootReducer = combineReducers({
   auth: auth,

@@ -59,11 +59,11 @@ const App = () => {
   useEffect(() => {
     const checkAndDispatchToken = async () => {
       try {
-        // Attempt to retrieve the access token from Keychain
+      //   // Attempt to retrieve the access token from Keychain
       // console.log('Clearing all stored tokens...');
       //   await Keychain.resetGenericPassword({service:'accessToken'});
       //   await Keychain.resetGenericPassword({service:'refreshToken'});
-      // //   console.log('Tokens cleared successfully');
+      // // //   console.log('Tokens cleared successfully');
      
      
         // Keychain.getGenericPassword returns credentials object if found, or false if not

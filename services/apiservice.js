@@ -113,13 +113,13 @@ api.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
-    else if (response?.data?.success === false) {
-      // Handle the 500 error case with jwt expired message
-      await getStore().dispatch(logoutrequest());
-      await removeTokens();
-      return Promise.reject(error);
-    }
-    return Promise.reject(error);
+  //   else if (response?.data?.success === false) {
+  //     // Handle the 500 error case with jwt expired message
+  //     await getStore().dispatch(logoutrequest());
+  //     await removeTokens();
+  //     return Promise.reject(error);
+  //   }
+  //   return Promise.reject(error);
   }
 );
 
